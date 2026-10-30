@@ -1,0 +1,10 @@
+.slidev-layout { font-size: 21px; }
+.slidev-layout h1 { font-size: 1.8em; margin-bottom: 0.65em; }
+.slidev-layout h2 { font-size: 1.3em; }
+.slidev-layout h3 { font-size: 1.12em; }
+.slidev-layout table { font-size: 0.85em; width: 100%; }
+.slidev-layout th, .slidev-layout td { padding: 0.4em 0.55em; }
+.slidev-layout li { margin-bottom: 0.4em; }
+.source { position: absolute; left: 3.5rem; right: 3.5rem; bottom: 1rem; font-size: 0.52em; opacity: 0.7; line-height: 1.35; }
+.takeaway { margin-top: 1.1rem; padding: 0.65rem 1rem; border-left: 4px solid #0891b2; background: #0891b210; font-size: 0.95em; }
+.card { border: 1px solid #0891b255; border-radius: 12px; padding: 1rem; }
