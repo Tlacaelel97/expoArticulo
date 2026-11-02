@@ -14,7 +14,7 @@ duration: 20min
 
 # A cellular automaton model for spheroid response to radiation and hyperthermia treatments
 
-Brüningk et al. · *Scientific Reports* (2019)
+Brüningk et al. · *Scientific Reports* (2019) &#91;1&#93;
 
 **Tlacaelel Jaime Flores-Villaseñor**
 
@@ -29,9 +29,9 @@ Fuente: artículo, p. 1. Duración objetivo del guion: 18:30, con 1:30 de margen
 
 ---
 
-# Table of contents
+# Contenido
 
-<Toc text-sm minDepth="1" maxDepth="2" />
+<Toc text-sm columns="2" minDepth="1" maxDepth="2" />
 
 <!--
 Tiempo: 0:20. Presentar brevemente el contenido de la exposición.
@@ -43,9 +43,9 @@ class: text-center
 
 # Resumen
 
-Los esferoides tumorales tridimensionales permiten estudiar cómo el microambiente influye en la respuesta al tratamiento. Brüningk et al. proponen un autómata celular que simula el crecimiento de esferoides HCT116, la difusión de oxígeno y la respuesta a radiación e hipertermia. Aunque ambos tratamientos pueden producir una supervivencia clonogénica comparable, generan <span v-mark.underline.red="1">distintas dinámicas de crecimiento</span>. Para explicar esta diferencia, el modelo distingue la <span v-mark.underline.blue="2">muerte dependiente de la división tras radiación</span> de la muerte independiente de la proliferación tras calentamiento. Su comparación con datos experimentales muestra que considerar estos mecanismos permite reproducir la reducción y el recrecimiento del esferoide, incluso con tratamientos combinados.
+Los esferoides tumorales tridimensionales permiten estudiar cómo el microambiente influye en la respuesta al tratamiento. Brüningk et al. proponen un autómata celular que simula el crecimiento de esferoides HCT116, la difusión de oxígeno y la respuesta a radiación (RT) e hipertermia (HT). Aunque ambos tratamientos pueden producir una supervivencia clonogénica comparable, generan <span v-mark.underline.red="1">distintas dinámicas de crecimiento</span>. Para explicar esta diferencia, el modelo distingue la <span v-mark.underline.blue="2">muerte dependiente de la división tras radiación</span> de la muerte independiente de la proliferación tras calentamiento. Su comparación con datos experimentales muestra que considerar estos mecanismos permite reproducir la reducción y el recrecimiento del esferoide, incluso con tratamientos combinados.
 
-<div class="source">Fuente: resumen e introducción, pp. 1–2; resultados y discusión, pp. 7–10.</div>
+<div class="source">Fuente: &#91;1&#93;, resumen e introducción, pp. 1–2; resultados y discusión, pp. 7–10.</div>
 
 <!--
 Tiempo: 0:50. El párrafo está visible completo desde el inicio. Usar dos avances para guiar la explicación con subrayados animados nativos de Slidev (v-mark).
@@ -60,6 +60,23 @@ Documentación de animaciones: https://sli.dev/guide/animations
 
 # La célula
 
+<div class="grid grid-cols-2 gap-7 items-center">
+<div>
+
+La célula representa la unidad morfológica y funcional que compone a los seres vivos. De acuerdo con la teoría celular, propuesta por Schleiden y Schwann en el año 1838, todos los organismos vivos están formados por la asociación de células y sus productos. &#91;2&#93;
+
+</div>
+<figure class="m-0">
+  <LocalImage name="cell" class="w-full h-70 object-contain" alt="Micrografía electrónica de estructuras celulares, con orgánulos señalados mediante números y flechas." />
+  <figcaption class="mt-3 text-sm text-center opacity-75">Fig. 1. Micrografía electrónica de estructuras celulares &#91;2&#93;.</figcaption>
+</figure>
+</div>
+
+
+---
+
+# La célula
+
 ### ¿Qué necesita representar este modelo?
 
 <div class="grid grid-cols-3 gap-5 mt-7">
@@ -68,9 +85,9 @@ Documentación de animaciones: https://sli.dev/guide/animations
 <div class="card"><b>Respuesta</b><p>Supervivencia y tiempo hasta la muerte tras el tratamiento.</p></div>
 </div>
 
-<div class="takeaway">Una célula biológica se representa como un agente con reglas simples.</div>
+<div class="takeaway">El modelo omite la vascularización. Cada célula del modelo representa una célula del esferoide.</div>
 
-<div class="source">Fuente: modelo computacional, pp. 2–4. Esquema conceptual de la exposición.</div>
+<div class="source">Fuente: &#91;1&#93;, modelo computacional, pp. 2–4. Esquema conceptual de la exposición.</div>
 
 <!--
 Tiempo: 0:40. Usar esta slide como puente a la modelación, sin desarrollar organelos.
@@ -83,27 +100,37 @@ level: 2
 
 # Ciclo celular
 
-```mermaid
-flowchart LR
-  G1["G1 · crecimiento"] --> S["S · duplicación del ADN"]
-  S --> G2["G2 · preparación"]
-  G2 --> M["M · división"]
-  M --> G1
-  G1 -. "Esquema de reposo" .-> G0["G0 · quiescencia"]
-  G0 -. "Reactivación" .-> G1
-```
-
-- Cada célula tiene un **reloj individual** y una fase inicial aleatoria.
-- Sin espacio para dividirse, entra en **G0 reversible**.
-- La muerte inducida por radiación se ejecuta al **intentar dividirse**.
-
-<div class="source">Fuente: modelo computacional y respuesta a radiación, pp. 2–3. Diagrama didáctico.</div>
+<CellCycle />
 
 <!--
-Tiempo: 0:55. Las etiquetas de las fases son contexto básico, no una investigación adicional de biología molecular.
-El diagrama simplifica el ciclo: el artículo ubica la entrada a G0 cuando no hay espacio al intentar la división; no interpretar la flecha didáctica desde G1 como una regla exacta del algoritmo.
+Tiempo: 0:55.
+
+El objetivo del ciclo celular es producir dos células hijas con cromosomas idénticos a los de la célula progenitora. Tiene dos fases principales: la interfase (G1, S y G2), que incluye el crecimiento celular y la replicación del ADN, y la fase M (mitosis y división celular). G1 es la fase más larga y variable; comienza al final de M. Si el ADN presenta daño, la célula puede activar mecanismos de reparación o apoptosis. En el punto de restricción, la célula evalúa si continúa hacia la división o sale del ciclo. Puede entrar en G0; la diferenciación terminal (GTD) se muestra como una salida adicional en la figura. En la fase S se replica el ADN y en G2 la célula se prepara para la mitosis.
+
+[click] Mostrar el párrafo sobre catástrofe mitótica como cierre de la diapositiva. Fuente de la imagen y del contexto del ciclo: &#91;3&#93;.
+
+En el algoritmo del artículo, la entrada a G0 ocurre cuando no hay espacio al intentar la división.
 El oxígeno y el espacio afectan la progresión y supervivencia; reposo no significa muerte.
 -->
+
+---
+
+# Apoptosis y muerte celular
+
+<div style="display: grid; grid-template-columns: 40% 1fr; gap: 2rem; align-items: center;">
+<figure style="margin: 0;">
+  <LocalImage name="muerteCelular" alt="Comparación entre necrosis y apoptosis, desde el daño celular hasta la desintegración o la formación de cuerpos apoptóticos." style="display: block; height: 350px; max-width: 100%; object-fit: contain; margin: 0 auto;" />
+  <figcaption style="margin-top: 0.75rem; font-size: 14px; line-height: 1.4; text-align: center;">Fig. 3. Necrosis y apoptosis &#91;3&#93;.</figcaption>
+</figure>
+<div>
+
+- **Necrosis:** proceso patológico asociado a una lesión celular aguda (hipotermia, hipoxia, radiación, etc.).
+- **Apoptosis:** ocurre en condiciones fisiológicas normales.
+- **Otras formas de muerte celular.**
+
+</div>
+</div>
+
 
 ---
 level: 2
@@ -115,18 +142,16 @@ level: 2
 
 | Proceso considerado | Papel en la presentación |
 |---|---|
-| Apoptosis | Contexto de muerte celular; no es una vía explícita del autómata. |
+| Apoptosis | Contexto de muerte celular. |
 | Muerte mitótica tras RT | Se produce cuando la célula dañada intenta dividirse. |
 | Muerte tras HT | Se implementa con un retraso independiente de la proliferación. |
 | Muerte por hipoxia prolongada | Contribuye al núcleo necrótico del esferoide. |
 
-<div class="takeaway">El modelo describe reglas de muerte; no resuelve las vías moleculares.</div>
 
-<div class="source">Fuente: métodos, pp. 2–4; discusión, p. 9.</div>
+<div class="source">Fuente: &#91;1&#93;, métodos, pp. 2–4; discusión, p. 9.</div>
 
 <!--
 Tiempo: 0:40. Conservar el tema solicitado sin presentar apoptosis como explicación universal.
-Pendiente para una ampliación futura: definición y animación de apoptosis respaldadas por una fuente específica. El artículo cita trabajos sobre apoptosis, pero no estudia sus vías moleculares.
 -->
 
 ---
@@ -139,7 +164,7 @@ Pendiente para una ampliación futura: definición y animación de apoptosis res
 
 <div class="takeaway">La pregunta se centra en la heterogeneidad dentro de un modelo tumoral.</div>
 
-<div class="source">Fuente: introducción y datos experimentales, pp. 1–2.</div>
+<div class="source">Fuente: &#91;1&#93;, introducción y datos experimentales, pp. 1–2.</div>
 
 <!--
 Tiempo: 0:40. Vincular el contexto de cáncer con la heterogeneidad que motiva el modelo.
@@ -162,7 +187,7 @@ level: 2
 
 **Hipoxia ≠ necrosis.** Al día 4, cuando se trata, no hay hipoxia significativa; aparece después.
 
-<div class="source">Figura 4, p. 7, Brüningk et al. (2019), CC BY 4.0. Recorte del PDF original.</div>
+<div class="source">Figura 4 de &#91;1&#93;, p. 7, CC BY 4.0. Recorte del PDF original.</div>
 
 <!--
 Tiempo: 1:00. Hipoxia: bajo oxígeno; necrosis: tejido/células muertas. No identificar toda señal verde como muerte.
@@ -187,7 +212,7 @@ level: 2
 
 En los experimentos se calentó a **47 °C**; la dosis equivalente permite expresar duración y temperatura.
 
-<div class="source">Fuente: resumen, datos experimentales y métodos, pp. 1–4; figura 6, p. 8.</div>
+<div class="source">Fuente: &#91;1&#93;, resumen, datos experimentales y métodos, pp. 1–4; figura 6, p. 8.</div>
 
 <!--
 Tiempo: 0:55. Gy es unidad de dosis absorbida. CEM43 no son grados Celsius ni duración real salvo a 43 °C.
@@ -209,11 +234,11 @@ El calor puede radiosensibilizar; esta tabla describe reglas del modelo, no reco
 
 <div class="takeaway">Se busca predecir reducción, retraso del crecimiento y recrecimiento.</div>
 
-<div class="source">Fuente: introducción y datos experimentales, pp. 1–2.</div>
+<div class="source">Fuente: &#91;1&#93;, introducción y datos experimentales, pp. 1–2.</div>
 
 <!--
 Tiempo: 0:40. Las 300 células son el número sembrado, no el número de células al tratar ni el tamaño inicial exacto de la simulación.
-Retomar BEQD de la slide Resumen: supervivencia clonogénica y evolución del diámetro son observables diferentes.
+Retomar el concepto de BEQD en las notas del resumen: supervivencia clonogénica y evolución del diámetro son observables diferentes.
 No llamar al esferoide tumor vascularizado ni organoide.
 -->
 
@@ -229,7 +254,7 @@ No llamar al esferoide tumor vascularizado ni organoide.
 - Una célula por vóxel de **12 μm** de lado.
 - Malla típica: **200 × 200 × 200** vóxeles.
 - Estado, reloj y destino para cada célula.
-- Vecindarios Moore y von Neumann hasta segundo orden.
+- Vecindarios de Moore y de von Neumann hasta segundo orden.
 
 </div>
 <div>
@@ -245,7 +270,7 @@ No llamar al esferoide tumor vascularizado ni organoide.
 </div>
 </div>
 
-<div class="source">Fuente: modelo computacional y oxigenación, pp. 2–3. Secuencia conceptual resumida.</div>
+<div class="source">Fuente: &#91;1&#93;, modelo computacional y oxigenación, pp. 2–3. Secuencia conceptual resumida.</div>
 
 <!--
 Tiempo: 1:20. La malla tiene 8 millones de posiciones; no todas están ocupadas. El resumen menciona simulaciones de 10^4–10^7 células.
@@ -271,10 +296,10 @@ $$
 
 <div class="takeaway">El entorno determina qué células proliferan y cuáles pueden morir por hipoxia.</div>
 
-<div class="source">Fuente: ecuación 1 y oxigenación, pp. 2–3; calibración, p. 6.</div>
+<div class="source">Fuente: &#91;1&#93;, ecuación 1 y oxigenación, pp. 2–3; calibración, p. 6.</div>
 
 <!--
-Tiempo: 1:25. p es presión parcial; D es coeficiente de difusión y Phi es tasa de consumo.
+Tiempo: 1:25. p es la presión parcial; D es el coeficiente de difusión y Φ es la tasa de consumo.
 Difusión en segundos frente a ciclo en horas justifica el equilibrio cuasiestacionario (cambio máximo ≤0.01%).
 D ajustado: 3.8 × 10^-9 m²/s; consumo usado: 22.1 mmHg/s.
 La muerte por hipoxia y eliminación de células necróticas son probabilísticas. El término hipoxia agrupa simplificadamente otros efectos del microambiente.
@@ -298,10 +323,10 @@ $$
 | G0 puede conservar células dañadas en el centro | La muerte también libera espacio en el centro |
 | Contracción gradual | Reoxigenación y posible repoblación |
 
-<div class="source">Fuente: ecuaciones 2–5 y figura 1, pp. 3–4.</div>
+<div class="source">Fuente: &#91;1&#93;, ecuaciones 2–5 y figura 1, pp. 3–4.</div>
 
 <!--
-Tiempo: 1:30. No desarrollar todas las ecuaciones. alpha y beta dependen de la línea celular; gamma pondera fase del ciclo; OER corrige por oxigenación.
+Tiempo: 1:30. No desarrollar todas las ecuaciones. alfa y beta dependen de la línea celular; gamma pondera fase del ciclo; OER corrige por oxigenación.
 OER=1 si pO2>11 mmHg; OER=3−2pO2/(11 mmHg) si pO2≤11 mmHg. Es una hipótesis del modelo, no un ajuste validado aquí en hipoxia.
 RT: las células destinadas a morir aún pueden dividirse; las hijas conservan la marca. Probabilidad mitótica: 0.44 los primeros 3.5 días y 0.59 después.
 HT: retraso medio de muerte 96 h, eliminación inmediata después de morir; supervivientes con arresto medio de ciclo 30 h. «Rápida» es relativa a muerte mitótica, no instantánea.
@@ -329,11 +354,11 @@ flowchart LR
 
 **La radiosensibilización entra en $\alpha$ y $\beta$, que dependen de la dosis térmica.**
 
-<div class="source">Fuente: figura 2 y combinación de tratamientos, p. 5.</div>
+<div class="source">Fuente: &#91;1&#93;, figura 2 y combinación de tratamientos, p. 5.</div>
 
 <!--
 Tiempo: 1:05. Las fracciones de las dos últimas ramas son condicionales a la población restante.
-S_RTHT es el componente radiativo modificado por calor; no es la supervivencia total combinada. El producto no representa simplemente dos tratamientos independientes: la sinergia entra mediante alpha y beta dependientes del calor.
+S_RTHT es el componente radiativo modificado por calor; no es la supervivencia total combinada. El producto no representa simplemente dos tratamientos independientes: la sinergia entra mediante alfa y beta dependientes del calor.
 La prioridad de asignación a vía RT o HT forma parte de la cascada implementada. No afirmar que el estudio optimiza el orden ni el fraccionamiento: son desarrollos futuros.
 -->
 
@@ -351,7 +376,7 @@ La prioridad de asignación a vía RT o HT forma parte de la cascada implementad
 - Ajuste por búsqueda en rejilla, un parámetro a la vez.
 - Comparación entre curvas mediante **$R^2$**.
 
-<div class="source">Fuente: ajuste y validación, pp. 5–6.</div>
+<div class="source">Fuente: &#91;1&#93;, ajuste y validación, pp. 5–6.</div>
 
 <!--
 Tiempo: 0:55. Separar calibrar de validar: no todas las curvas son predicciones independientes.
@@ -370,11 +395,11 @@ Los autores advierten que los parámetros pertenecen a un sistema simplificado: 
 - Coincidencia cualitativa de la región central muerta.
 - Oxígeno simulado frente al analítico: diferencias de hasta **15 %**.
 
-<div class="source">Figura 5, p. 7, recortada; comparación de oxígeno: figura 3, p. 6. Brüningk et al. (2019), CC BY 4.0.</div>
+<div class="source">Figuras 5 y 3 de &#91;1&#93;, pp. 7 y 6, respectivamente. Recorte de la figura 5, CC BY 4.0.</div>
 
 <!--
 Tiempo: 1:00. A: diámetro vs tiempo; B: microscopía con células muertas en naranja; C: simulación.
-El 15% corresponde al campo de presión de oxígeno, no al error del diámetro ni a un R².
+El 15 % corresponde al campo de presión de oxígeno, no al error del diámetro ni a un R².
 La meseta de crecimiento se representa mediante muerte hipóxica y eliminación de células necróticas, aunque en esta ventana aún se observa crecimiento.
 -->
 
@@ -385,7 +410,7 @@ La meseta de crecimiento se representa mediante muerte hipóxica y eliminación 
 <img src="/figures/bruningk-2019-fig6-rt-ht.png" class="w-full h-77 object-contain" alt="Filas superior y central de la figura 6: curvas experimentales y simuladas de radiación y de hipertermia." />
 
 <div class="text-sm mt-1">Arriba: RT · R² = 0.95–0.98. Abajo: HT · R² = 0.94–0.98.</div>
-<div class="source">Figura 6, p. 8, recorte de filas RT y HT. Brüningk et al. (2019), CC BY 4.0. Eje x compartido: días desde la siembra.</div>
+<div class="source">Figura 6 de &#91;1&#93;, p. 8, recorte de filas RT y HT, CC BY 4.0. Eje x compartido: días desde la siembra.</div>
 
 <!--
 Tiempo: 1:30. Eje vertical: diámetro en micrómetros; horizontal: días desde siembra, no desde tratamiento. Puntos: datos; rojo: simulación; discontinuas: incertidumbre de supervivencia clonogénica donde aplica. Las barras son error estándar de al menos tres experimentos.
@@ -407,7 +432,7 @@ Limitación visible: subestima diámetro temprano para 40 y 80 CEM43; posible af
 
 **Curvas simuladas sin volver a ajustar los parámetros.**
 
-<div class="source">Figura 6, p. 8, recorte de fila RTHT. Brüningk et al. (2019), CC BY 4.0.</div>
+<div class="source">Figura 6 de &#91;1&#93;, p. 8, recorte de fila RTHT, CC BY 4.0.</div>
 
 <!--
 Tiempo: 1:15. Leer de izquierda a derecha para conservar orden visual original.
@@ -429,7 +454,7 @@ Una línea celular *in vitro*; geometría simplificada; sin vasculatura, inmunid
 
 <div class="takeaway">El siguiente paso es ampliar y validar el modelo para condiciones in vivo.</div>
 
-<div class="source">Fuente: discusión y conclusiones, pp. 9–10.</div>
+<div class="source">Fuente: &#91;1&#93;, discusión y conclusiones, pp. 9–10.</div>
 
 <!--
 Tiempo: 1:10. Responder la pregunta inicial. No usar R² como prueba de que el mecanismo sea único o molecularmente demostrado.
@@ -439,23 +464,23 @@ Si falta tiempo, conservar estas tres conclusiones y omitir los detalles numéri
 -->
 
 ---
+class: references-slide
+---
 
 # Referencias
 
-**Fuente principal revisada**
+&#91;1&#93; S. C. Brüningk, P. Ziegenhein, I. Rivens, U. Oelfke y G. ter Haar, «A cellular automaton model for spheroid response to radiation and hyperthermia treatments», *Scientific Reports*, vol. 9, art. 17674, 2019, doi: [10.1038/s41598-019-54117-x](https://doi.org/10.1038/s41598-019-54117-x).
 
-Brüningk, S. C., Ziegenhein, P., Rivens, I., Oelfke, U. & ter Haar, G. (2019). *A cellular automaton model for spheroid response to radiation and hyperthermia treatments*. **Scientific Reports, 9**, 17674. [doi:10.1038/s41598-019-54117-x](https://doi.org/10.1038/s41598-019-54117-x).
+&#91;2&#93; J. Sepúlveda Saavedra y A. Soto Domínguez, «La célula», en *Texto atlas de histología. Biología celular y tisular*, 2.ª ed., cap. 2. McGraw-Hill, 2014. &#91;En línea&#93;. Disponible en: [AccessMedicina](https://accessmedicina.mhmedical.com/content.aspx?bookid=1506&sectionid=98182026). &#91;Consultado: 2-nov-2026&#93;.
 
-Figuras 4–6: recortes del artículo original, [licencia CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Sin cambios en los datos.
+&#91;3&#93; W. Pawlina y M. H. Ross, *Ross. Histología: texto y atlas. Correlación con biología molecular y celular*, 8.ª ed. Barcelona, España: Wolters Kluwer, 2020. &#91;En línea&#93;. Disponible en: [PDF](https://ia601603.us.archive.org/11/items/histologia-ross-8/Histologia%20Ross%208.pdf).
 
-<div class="mt-8 text-xl">Preguntas · 5 min</div>
+Figuras 4–6 del artículo &#91;1&#93;: recortes del original, [licencia CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Sin cambios en los datos.
 
-<div class="text-sm opacity-70 mt-4">Fuentes de contexto por ampliar: biología celular, apoptosis y definición general de cáncer.</div>
+<div class="mt-8 text-xl">Preguntas</div>
 
 <!--
-Tiempo: 0:20. Cerrar en 18:30 y dar paso a preguntas; el margen restante hasta 20 min permite pausas y transiciones.
-Solo el artículo original se ha revisado como fuente en esta versión. Las referencias que este cita no se presentan como leídas.
-Las diapositivas posteriores están ocultas: son ejemplos conservados de la plantilla de Slidev.
+Tiempo: 0:20. Cerrar en 18:30 y dar paso a preguntas
 -->
 
 
