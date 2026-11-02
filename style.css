@@ -15,3 +15,8 @@
 .references-slide p { margin-top: 0.75rem; margin-bottom: 0.75rem; }
 
 .references-slide p { color: inherit; opacity: 1; }
+
+.thermal-model { font-size: 18px; }
+.thermal-model .katex-display { margin: 0.6em 0; }
+.thermal-model .katex { font-size: 1.08em; }
+.thermal-model li { margin-bottom: 0.25em; }

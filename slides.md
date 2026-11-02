@@ -43,7 +43,7 @@ class: text-center
 
 # Resumen
 
-Los esferoides tumorales tridimensionales permiten estudiar cómo el microambiente influye en la respuesta al tratamiento. Brüningk et al. proponen un autómata celular que simula el crecimiento de esferoides HCT116, la difusión de oxígeno y la respuesta a radiación (RT) e hipertermia (HT). Aunque ambos tratamientos pueden producir una supervivencia clonogénica comparable, generan <span v-mark.underline.red="1">distintas dinámicas de crecimiento</span>. Para explicar esta diferencia, el modelo distingue la <span v-mark.underline.blue="2">muerte dependiente de la división tras radiación</span> de la muerte independiente de la proliferación tras calentamiento. Su comparación con datos experimentales muestra que considerar estos mecanismos permite reproducir la reducción y el recrecimiento del esferoide, incluso con tratamientos combinados.
+La menor radiosensibilidad de las células hipóxicas dificulta la respuesta tumoral a la radiación y motiva su combinación con hipertermia como estrategia de radiosensibilización. Los esferoides tumorales 3D permiten estudiar esta respuesta considerando el microambiente. Brüningk et al. proponen un autómata celular que simula el crecimiento de esferoides HCT116, la difusión de oxígeno y la respuesta a radiación (RT) e hipertermia (HT). Aunque ambos tratamientos pueden producir una supervivencia clonogénica comparable, generan <span v-mark.underline.red="1">distintas dinámicas de crecimiento</span>. Para explicar esta diferencia, el modelo distingue la <span v-mark.underline.blue="2">muerte dependiente de la división tras radiación</span> de la muerte independiente de la proliferación tras calentamiento. Su comparación con datos experimentales muestra que considerar estos mecanismos permite reproducir la reducción y el recrecimiento del esferoide, incluso con tratamientos combinados.
 
 <div class="source">Fuente: &#91;1&#93;, resumen e introducción, pp. 1–2; resultados y discusión, pp. 7–10.</div>
 
@@ -254,26 +254,36 @@ No llamar al esferoide tumor vascularizado ni organoide.
 - Una célula por vóxel de **12 μm** de lado.
 - Malla típica: **200 × 200 × 200** vóxeles.
 - Estado, reloj y destino para cada célula.
-- Vecindarios de Moore y de von Neumann hasta segundo orden.
+- Vecindad de Moore y de von Neumann hasta segundo orden.
 
 </div>
 <div>
 
-### Reglas locales
+### División sin tratamiento
 
-1. Actualizar el oxígeno.
-2. Avanzar ciclo y comprobar espacio.
-3. Dividirse o entrar en G0.
-4. Aplicar muerte y eliminación según el estado.
-5. Reacomodar para conservar un agregado compacto.
+Sea $F_i$ el conjunto de sitios vecinos libres. Al intentar dividirse:
+
+$$
+C_i \longrightarrow
+\begin{cases}
+C_{i,1}+C_{i,2}, & |F_i|>0,\\
+G_0, & |F_i|=0.
+\end{cases}
+$$
+
+- División exitosa: **dos hijas**, $\Delta N=+1$.
+- Si se libera espacio: $G_0\to\text{ciclo activo}$.
+
+**Notación explicativa de las reglas**, no una ecuación literal del artículo.
 
 </div>
 </div>
 
-<div class="source">Fuente: &#91;1&#93;, modelo computacional y oxigenación, pp. 2–3. Secuencia conceptual resumida.</div>
+<div class="source">Fuente: &#91;1&#93;, modelo computacional, p. 2. Esquema matemático elaborado a partir de las reglas descritas.</div>
 
 <!--
-Tiempo: 1:20. La malla tiene 8 millones de posiciones; no todas están ocupadas. El resumen menciona simulaciones de 10^4–10^7 células.
+Tiempo: 1:40. F_i, C_i y las hijas C_i,1 y C_i,2 son notación didáctica de esta presentación. El esquema aplica a la división sin tratamiento; las reglas RT y HT se explican después. No implica una función de transición completa ni fija tiempos que el artículo no especifica.
+La malla tiene 8 millones de posiciones; no todas están ocupadas. El resumen menciona simulaciones de 10^4–10^7 células.
 En división se favorecen sitios centrales. No hay migración celular explícita; el reacomodo geométrico no equivale a modelar motilidad.
 Las reglas discretas celulares se acoplan a un campo continuo de oxígeno: modelo híbrido.
 -->
@@ -335,6 +345,47 @@ AlphaR tiene tramo cuadrático y después lineal; la supervivencia 3D se fija en
 
 ---
 level: 2
+class: thermal-model
+---
+
+# Hipertermia: modelo de supervivencia
+
+**AlphaR:** tramo cuadrático y después lineal.
+
+$$
+-\log S_A(t_{43})=
+\begin{cases}
+\gamma_{\mathrm{HT}}\beta_{\mathrm{HT}}t_{43}^{2}, & t_{43}\leq D_T,\\
+\gamma_{\mathrm{HT}}\left(\alpha_0t_{43}-\dfrac{\alpha_0^2}{4\beta_{\mathrm{HT}}}\right), & t_{43}>D_T,
+\end{cases}
+\quad D_T=\frac{\alpha_0}{2\beta_{\mathrm{HT}}}.
+$$
+
+**Ajuste para esferoides 3D:** meseta por encima de 160 CEM43.
+
+$$
+S_{\mathrm{HT}}(t_{43})=
+\begin{cases}
+S_A(t_{43}), & t_{43}\leq160\ \mathrm{CEM43},\\
+S_{\mathrm{HT,plateau}}, & t_{43}>160\ \mathrm{CEM43}.
+\end{cases}
+$$
+
+- $t_{43}$: dosis térmica; $\alpha_0,\beta_{\mathrm{HT}}$: parámetros térmicos; $\gamma_{\mathrm{HT}}$: ponderación por fase.
+- $D_T$: dosis de cambio de tramo; $S_A$: supervivencia AlphaR; $S_{\mathrm{HT,plateau}}$: meseta.
+- **Muerte tras un retraso aleatorio**, sin exigir división; después, eliminación inmediata.
+
+<div class="source">Fuente: &#91;1&#93;, ecuaciones 4–5, p. 3; dinámica de muerte, p. 4. Se usa S_A para distinguir AlphaR de la supervivencia 3D.</div>
+
+<!--
+Tiempo: 1:10. Esta diapositiva continúa la comparación RT/HT anterior; no se añade tiempo al bloque de tratamientos del guion.
+Explicar la forma por tramos, no derivarla. No confundir D_T con temperatura ni con el corte de 160 CEM43.
+La etiqueta S_A es explicativa: corresponde al cálculo de la ecuación 5 del artículo. La ecuación 4 añade la meseta para representar la resistencia térmica en 3D. Los parámetros térmicos alfa_0 y beta_HT son distintos de alfa y beta radiativos.
+El modelo también aplica un arresto temporal del ciclo a supervivientes. Fuente exclusiva: artículo, pp. 3–4.
+-->
+
+---
+level: 2
 ---
 
 # Combinación RT + HT
@@ -389,13 +440,16 @@ Los autores advierten que los parámetros pertenecen a un sistema simplificado: 
 
 # Resultados: crecimiento sin tratamiento
 
-<img src="/figures/bruningk-2019-fig5.png" class="w-full h-65 object-contain" alt="Figura 5: curva de crecimiento sin tratar, imágenes experimentales y cortes simulados con un núcleo necrótico creciente." />
+<figure style="margin: 0;">
+  <img src="/figures/bruningk-2019-fig5.png" class="w-full h-57 object-contain" alt="Figura 5: curva de crecimiento sin tratar, imágenes experimentales y cortes simulados con un núcleo necrótico creciente." />
+  <figcaption style="margin-top: 0.5rem; font-size: 13px; line-height: 1.35; text-align: center;">Fig. 5. Crecimiento sin tratamiento: comparación experimental y simulada &#91;1, fig. 5, p. 7&#93;. Recorte, CC BY 4.0.</figcaption>
+</figure>
 
 - Curva calibrada: **$R^2=0.99$**; tiempo de duplicación ajustado: **28 h**.
 - Coincidencia cualitativa de la región central muerta.
 - Oxígeno simulado frente al analítico: diferencias de hasta **15 %**.
 
-<div class="source">Figuras 5 y 3 de &#91;1&#93;, pp. 7 y 6, respectivamente. Recorte de la figura 5, CC BY 4.0.</div>
+<div class="source">Comparación de oxígeno: &#91;1, fig. 3, p. 6&#93;.</div>
 
 <!--
 Tiempo: 1:00. A: diámetro vs tiempo; B: microscopía con células muertas en naranja; C: simulación.
@@ -407,10 +461,13 @@ La meseta de crecimiento se representa mediante muerte hipóxica y eliminación 
 
 # Resultados: RT y HT por separado
 
-<img src="/figures/bruningk-2019-fig6-rt-ht.png" class="w-full h-77 object-contain" alt="Filas superior y central de la figura 6: curvas experimentales y simuladas de radiación y de hipertermia." />
+<figure style="margin: 0;">
+  <img src="/figures/bruningk-2019-fig6-rt-ht.png" class="w-full h-70 object-contain" alt="Filas superior y central de la figura 6: curvas experimentales y simuladas de radiación y de hipertermia." />
+  <figcaption style="margin-top: 0.5rem; font-size: 13px; line-height: 1.35; text-align: center;">Fig. 6. Respuesta a RT (arriba) y HT (abajo) &#91;1, fig. 6, p. 8&#93;. Eje temporal: días desde la siembra. Recorte, CC BY 4.0.</figcaption>
+</figure>
 
 <div class="text-sm mt-1">Arriba: RT · R² = 0.95–0.98. Abajo: HT · R² = 0.94–0.98.</div>
-<div class="source">Figura 6 de &#91;1&#93;, p. 8, recorte de filas RT y HT, CC BY 4.0. Eje x compartido: días desde la siembra.</div>
+
 
 <!--
 Tiempo: 1:30. Eje vertical: diámetro en micrómetros; horizontal: días desde siembra, no desde tratamiento. Puntos: datos; rojo: simulación; discontinuas: incertidumbre de supervivencia clonogénica donde aplica. Las barras son error estándar de al menos tres experimentos.
@@ -424,7 +481,10 @@ Limitación visible: subestima diámetro temprano para 40 y 80 CEM43; posible af
 
 # Resultados: tratamiento combinado
 
-<img src="/figures/bruningk-2019-fig6-rtht.png" class="w-full h-57 object-contain" alt="Fila inferior de la figura 6: respuesta combinada a 2 Gy y 160, 80 o 40 CEM43." />
+<figure style="margin: 0;">
+  <img src="/figures/bruningk-2019-fig6-rtht.png" class="w-full h-50 object-contain" alt="Fila inferior de la figura 6: respuesta combinada a 2 Gy y 160, 80 o 40 CEM43." />
+  <figcaption style="margin-top: 0.5rem; font-size: 13px; line-height: 1.35; text-align: center;">Fig. 7. Respuesta al tratamiento combinado RT + HT &#91;1, fig. 6, p. 8&#93;. Recorte, CC BY 4.0.</figcaption>
+</figure>
 
 | Dosis | 2 Gy + 160 CEM43 | 2 Gy + 80 CEM43 | 2 Gy + 40 CEM43 |
 |---|---:|---:|---:|
@@ -432,7 +492,7 @@ Limitación visible: subestima diámetro temprano para 40 y 80 CEM43; posible af
 
 **Curvas simuladas sin volver a ajustar los parámetros.**
 
-<div class="source">Figura 6 de &#91;1&#93;, p. 8, recorte de fila RTHT, CC BY 4.0.</div>
+
 
 <!--
 Tiempo: 1:15. Leer de izquierda a derecha para conservar orden visual original.

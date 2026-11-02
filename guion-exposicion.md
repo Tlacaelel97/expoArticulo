@@ -1,258 +1,487 @@
 # Guion de exposición — Brüningk et al. (2019)
 
-Preparado para las 20 diapositivas visibles de `slides.md`. Las frases están escritas para decirse en voz alta; las indicaciones entre corchetes son acciones, no se leen. Puedes usarlo como texto de lectura durante el ensayo y después como apoyo para explicar con tus palabras.
+Actualizado para las **23 diapositivas visibles** de `slides.md`, incluidos los componentes y figuras actuales. Los números de cada apartado coinciden con los números visibles en la presentación. Las dos diapositivas de «La célula» y las dos de «Apoptosis y muerte celular» tienen explicaciones diferentes.
 
-El tiempo objetivo es **18:30**, con **1:30 de margen hasta 20 minutos**. Los **5 minutos de preguntas** van aparte. Los tiempos incluyen pausas, señalar figuras y avanzar las animaciones; deben confirmarse en un ensayo. No leas los pies de fuente ni todos los números de las tablas.
+El texto sin corchetes está preparado para decirse en voz alta. Las indicaciones entre corchetes son acciones y no se leen. Los textos de este guion son una explicación oral; no necesitas leer todos los párrafos de las diapositivas, los pies de imagen ni las referencias bibliográficas completas.
 
-El contenido se basa en el artículo original y en la presentación actual. La introducción desarrolla el contexto necesario para este modelo; una explicación más extensa de apoptosis o de biología del cáncer requiere las fuentes adicionales señaladas en `revision-articulo.md`.
+**Objetivo actualizado: 19:50 de exposición, con 0:10 de margen hasta el límite de 20 minutos.** Las preguntas tienen 5 minutos aparte. Los tiempos son estimaciones de ensayo e incluyen pausas y señalar las figuras. La introducción tiene un objetivo de **7:20** y el bloque de modelo, de **6:40**, para explicar explícitamente las transiciones y las variables. El margen es estrecho: si el ensayo excede 20 minutos, usa los recortes indicados más abajo. Las notas de Slidev pueden conservar tiempos de versiones anteriores: para este ensayo usa los relojes de este documento.
+
+Fuentes: **[1]** artículo de Brüningk et al.; **[2]** texto de histología en AccessMedicina; **[3]** Ross. Las referencias completas están al final de la presentación y de este guion. El contexto biológico y las reglas simplificadas del autómata se explican por separado. **Las ampliaciones técnicas de los apartados 13, 15, 16 y 17 y el apoyo de estudio se basan únicamente en el PDF original [1]; no se consultan ni completan con los trabajos que este cita.**
 
 ## Puntos de control del tiempo
 
 | Al terminar | Tiempo acumulado objetivo |
 |---|---:|
-| Esferoides: final de la introducción (10) | 7:00 |
-| Combinación: final del modelo (14) | 12:20 |
-| Resultados combinados (18) | 17:00 |
-| Referencias (20) | 18:30 |
+| Ciclo celular, incluido el aviso animado (6) | 3:20 |
+| Esferoides: final de la introducción (12) | 7:20 |
+| Combinación: final del modelo (17) | 14:00 |
+| Resultados combinados (21) | 18:30 |
+| Referencias (23) | 19:50 |
 
-## 1. Portada
+## 1. A cellular automaton model for spheroid response to radiation and hyperthermia treatments
 
 **Duración: 0:20 · Reloj: 0:00–0:20**
 
-Buenos días. Soy Tlacaelel Jaime Flores-Villaseñor y voy a presentar el trabajo de Brüningk y colaboradores sobre un modelo de autómatas celulares para estudiar la respuesta de esferoides tumorales a radiación e hipertermia. La pregunta que nos va a acompañar es cómo conectar lo que le ocurre a una célula con el crecimiento de todo el esferoide.
+Buenos días. Soy Tlacaelel Jaime Flores-Villaseñor y voy a presentar el trabajo de Brüningk y colaboradores sobre un autómata celular para estudiar la respuesta de esferoides tumorales a radiación e hipertermia. La pregunta principal es cómo conectar lo que le ocurre a una célula con el crecimiento de todo el esferoide.
 
 ## 2. Contenido
 
-**Duración: 0:20 · Reloj: 0:20–0:40**
+**Duración: 0:15 · Reloj: 0:20–0:35**
 
-Primero voy a introducir los conceptos biológicos necesarios para entender el problema. Después explicaré cómo se traducen esos conceptos en reglas del modelo. Finalmente, revisaremos cómo se ajustó y qué tan bien reprodujo los resultados experimentales, para cerrar con sus principales alcances y limitaciones.
+Primero revisaré el contexto biológico. Después explicaré cómo se convierte en reglas del modelo y cómo se comparan las simulaciones con los experimentos. Al final veremos los resultados y sus principales limitaciones.
 
 ## 3. Resumen
 
-**Duración: 0:50 · Reloj: 0:40–1:30**
+**Duración: 0:40 · Reloj: 0:35–1:15**
 
-La idea central es que medir cuántas células conservan la capacidad de reproducirse después de un tratamiento no basta para describir lo que ocurrirá con el tamaño del esferoide.
+Las células hipóxicas son menos sensibles a la radiación. Esto motiva combinar radioterapia e hipertermia para aumentar la sensibilidad al tratamiento. El artículo estudia la respuesta en esferoides mediante células individuales y su microambiente: saber cuántas conservan capacidad de formar colonias no describe por completo la evolución del agregado.
 
-[Primer avance: subrayado rojo.]
+[Primer avance: aparece el subrayado rojo.]
 
-Dos tratamientos pueden producir una supervivencia clonogénica comparable y, aun así, dar lugar a distintas curvas de crecimiento. Una posible explicación está en el momento y la forma en que mueren las células.
+Radiación y calor pueden producir supervivencias comparables y distintas curvas de crecimiento.
 
-[Segundo avance: subrayado azul.]
+[Segundo avance: aparece el subrayado azul.]
 
-Por eso, los autores distinguen la muerte ligada al intento de división tras la radiación de la muerte independiente de la proliferación tras el calentamiento. Su propuesta es incorporar esa diferencia en un modelo espacial y comparar sus predicciones con experimentos. Para entenderlo, primero necesitamos revisar qué características celulares conserva el modelo.
+Para explicar esa diferencia, los autores distinguen la muerte ligada al intento de división tras radiación de la muerte independiente de la proliferación tras calentamiento. Esa será la idea conductora de la exposición.
 
 ## 4. La célula
 
-**Duración: 0:40 · Reloj: 1:30–2:10**
+**Duración: 0:30 · Reloj: 1:15–1:45**
 
-Para esta presentación podemos pensar en cada célula como una unidad que cambia de estado y responde a su entorno. No necesitamos representar todos sus componentes internos: necesitamos saber si está proliferando, si está en reposo o si ha muerto.
+[Definición y micrografía: referencia 2.]
 
-También debemos conocer cuánto oxígeno tiene disponible y si hay espacio para que pueda dividirse. Finalmente, después del tratamiento, necesitamos distinguir si conservará su capacidad reproductiva y cuánto tiempo pasará antes de que muera si resulta dañada.
+Antes del modelo, partamos de la unidad que vamos a representar. La célula es la unidad morfológica y funcional de los seres vivos. La teoría celular establece que los organismos están formados por células y sus productos.
 
-Estas son las propiedades que los autores convierten en reglas para cada célula. Veamos primero cómo representan la división.
+[Señalar la micrografía de la derecha.]
 
-## 5. Ciclo celular
+Esta imagen permite reconocer que una célula tiene una organización interna compleja. El modelo no reproduce cada orgánulo: selecciona propiedades que permiten describir su crecimiento y su respuesta al tratamiento. La definición y la micrografía de esta diapositiva corresponden a la referencia dos, el texto de histología disponible en AccessMedicina.
 
-**Duración: 0:55 · Reloj: 2:10–3:05**
+La siguiente pregunta es cuáles de esas propiedades necesitamos conservar.
 
-El ciclo celular describe la secuencia por la que pasa una célula antes de dividirse. Aquí vemos G1, la fase S, en la que se duplica el ADN, G2 y la fase M, correspondiente a la división.
+## 5. La célula
 
-[Recorrer el esquema con el puntero.]
+**Duración: 0:25 · Reloj: 1:45–2:10**
 
-En la simulación, cada célula tiene su propio reloj y puede comenzar en una fase distinta. Eso evita que todas se dividan al mismo tiempo. Si al intentar dividirse no encuentra espacio, entra en un estado de reposo reversible llamado G0. Si después aparece espacio, puede reactivarse.
+[Representación simplificada de la célula: referencia 1.]
 
-Esta distinción será fundamental: una célula en reposo sigue viva, y en el modelo el daño por radiación no provoca necesariamente su eliminación inmediata. La muerte se ejecuta cuando vuelve a intentar dividirse.
+Para el modelo, cada célula tiene un estado: puede estar proliferando, en reposo o muerta. También tiene un entorno, definido aquí por el oxígeno disponible y por el espacio entre las células vecinas.
 
-## 6. Apoptosis y muerte celular
+Después del tratamiento necesitamos conocer su destino y el tiempo hasta que muera, si ha resultado dañada. Cada célula del modelo representa una célula del esferoide.
 
-**Duración: 0:40 · Reloj: 3:05–3:45**
+El sistema es avascular: no se incluye una red de vasos sanguíneos. El oxígeno llega por difusión desde el exterior. Con estas simplificaciones podemos empezar a traducir la biología en reglas.
 
-Aquí conviene separar las distintas formas de representar la muerte. La apoptosis aparece como parte del contexto biológico, pero el autómata no reproduce sus vías moleculares.
+## 6. Ciclo celular
 
-Lo que implementa son reglas: después de la radiación, la muerte depende de un intento de división; después del calor, ocurre tras un retraso que no depende de que la célula esté proliferando. Además, una exposición prolongada a bajo oxígeno puede producir muerte y contribuir al núcleo necrótico.
+**Duración: 1:10 · Reloj: 2:10–3:20**
 
-Por tanto, no vamos a llamar apoptosis a toda muerte celular. Lo relevante para este modelo es cuándo ocurre y qué cambia en el entorno cuando la célula desaparece.
+[Figura de Ross: referencia 3. El aviso se activa únicamente al cerrar esta explicación.]
 
-## 7. Cáncer: el problema que se quiere representar
+El ciclo celular organiza los procesos necesarios para producir dos células hijas. En la interfase encontramos G1, la fase S y G2. Durante S se replica el ADN; después, la célula se prepara para la mitosis y la división.
 
-**Duración: 0:40 · Reloj: 3:45–4:25**
+[Recorrer el ciclo con el puntero, sin activar todavía el aviso.]
 
-El sistema experimental de este trabajo utiliza HCT116, una línea celular de carcinoma colorrectal humano. El interés de reunir estas células en tres dimensiones es que ya no todas están expuestas a las mismas condiciones.
+La figura también muestra puntos de control. Podemos entenderlos como mecanismos que revisan si existen condiciones para continuar; por ejemplo, si hay daño en el ADN o problemas en la segregación de los cromosomas.
 
-Las células de la periferia y las del centro pueden tener distinta disponibilidad de oxígeno y distinto acceso a espacio para proliferar. Esa heterogeneidad hace que la respuesta del conjunto no se pueda deducir solamente de una célula aislada.
+[Señalar G0 y la salida hacia diferenciación terminal.]
 
-Lo que queremos representar es precisamente esa interacción entre las propiedades de cada célula, su posición y su microambiente.
+Salir del ciclo no equivale automáticamente a morir. En el modelo del artículo, una célula que no encuentra espacio para dividirse puede entrar en G0 y reactivarse cuando aparece espacio.
 
-## 8. Hipoxia y necrosis
+[Avanzar UNA vez. El párrafo se superpone a toda la diapositiva. Hacer una pausa breve y leerlo como cierre.]
 
-**Duración: 1:00 · Reloj: 4:25–5:25**
+Una catástrofe mitótica causada por el mal funcionamiento de los puntos de control del ciclo celular puede conducir a la muerte celular y al desarrollo de células tumorales.
 
-Esta figura muestra cómo cambia el interior del esferoide con el tiempo. El azul marca los núcleos celulares; el rojo identifica proliferación y el verde señala hipoxia, es decir, bajo oxígeno.
+[Dejar el aviso visible. El siguiente avance lleva a la diapositiva 7.]
 
-[Señalar primero el día 4 y después los días 11 y 25.]
+## 7. Apoptosis y muerte celular
 
-En el día cuatro no se observa hipoxia significativa. Conforme el agregado crece, aparece una región hipóxica central, rodeada por una periferia con numerosas células proliferantes.
+**Duración: 0:45 · Reloj: 3:20–4:05**
 
-Es importante distinguir hipoxia de necrosis. La señal verde indica bajo oxígeno, no demuestra por sí sola que las células estén muertas. En el día veinticinco, la menor densidad celular central puede indicar necrosis.
+[Comparación visual de necrosis y apoptosis: referencia 3.]
 
-Hay además un detalle que retomaremos al final: los tratamientos se aplicaron al día cuatro. Por tanto, estos experimentos no permiten validar de manera suficiente cómo cambia la respuesta a radiación cuando ya existe un centro claramente hipóxico.
+En esta imagen de Ross se comparan necrosis y apoptosis. Las dos columnas muestran cambios celulares diferentes.
 
-## 9. Radioterapia e hipertermia
+[Recorrer de arriba abajo la columna izquierda.]
 
-**Duración: 0:55 · Reloj: 5:25–6:20**
+En la necrosis se observa daño de la membrana, edema o hinchazón celular y, finalmente, ruptura y desintegración. En esta diapositiva la relacionamos con una lesión celular aguda, por ejemplo, asociada a hipoxia o a otros agentes lesivos.
 
-Los dos tratamientos que estudian son radioterapia, que utiliza radiación ionizante, e hipertermia, que eleva la temperatura.
+[Recorrer de arriba abajo la columna derecha.]
 
-La dosis de radiación se expresa en gray. Para el calentamiento se utiliza CEM43: minutos equivalentes acumulados a cuarenta y tres grados. Esta medida permite comparar exposiciones que combinan distinta temperatura y duración. En estos experimentos, el calentamiento real fue a cuarenta y siete grados; por ejemplo, cinco minutos corresponden a ochenta CEM43.
+En la apoptosis, la imagen muestra fragmentación del ADN, reducción del volumen y formación de cuerpos apoptóticos. Puede ocurrir en condiciones fisiológicas normales.
 
-Lo esencial para el modelo es que las dos modalidades producen dinámicas diferentes de muerte. La radiación se representa mediante muerte ligada a la división, mientras que el calor puede eliminar células que también estaban en reposo. Esto cambia dónde se libera espacio y cómo se reorganiza el esferoide.
+Estos dos ejemplos no agotan todas las formas de muerte celular. Lo que necesitamos retener es que el destino de una célula puede seguir procesos distintos. Ahora veamos cuáles distingue el artículo en su modelo.
 
-## 10. Esferoides tumorales
+## 8. Apoptosis y muerte celular
 
-**Duración: 0:40 · Reloj: 6:20–7:00**
+**Duración: 0:30 · Reloj: 4:05–4:35**
+
+[Reglas de muerte del modelo: referencia 1.]
+
+Aquí pasamos de la imagen histológica a las reglas del autómata. La apoptosis forma parte del contexto, pero el modelo no resuelve sus vías moleculares.
+
+Tras radiación, la muerte se representa como dependiente de un intento de división. Tras hipertermia, ocurre después de un retraso independiente de la proliferación. Además, la hipoxia prolongada puede producir muerte y contribuir al núcleo necrótico.
+
+Por eso no llamaremos apoptosis a toda muerte del modelo: nos interesa cuándo sucede y cómo cambia el entorno al eliminarse una célula.
+
+## 9. Cáncer: el problema que se quiere representar
+
+**Duración: 0:30 · Reloj: 4:35–5:05**
+
+El estudio utiliza HCT116, una línea celular de carcinoma colorrectal humano. Al reunir las células en tres dimensiones, aparecen condiciones diferentes entre la periferia y el centro.
+
+Las células pueden tener distinto acceso a oxígeno y espacio para proliferar. Por eso, la respuesta del conjunto no se deduce solo de una célula aislada.
+
+Este es el problema que se quiere representar: la interacción entre las propiedades celulares, la posición de cada célula y su microambiente. La siguiente imagen muestra cómo se desarrolla esa heterogeneidad.
+
+## 10. Hipoxia y necrosis
+
+**Duración: 0:50 · Reloj: 5:05–5:55**
+
+En esta figura, el azul señala núcleos celulares, el rojo proliferación y el verde hipoxia, es decir, bajo oxígeno.
+
+[Señalar el día 4 y después los días 11 y 25.]
+
+En el día cuatro no hay hipoxia significativa. Conforme el esferoide crece, aparece una región hipóxica central, rodeada por una periferia con numerosas células proliferantes.
+
+Hipoxia no significa necrosis: la señal verde no demuestra por sí sola que las células estén muertas. En el día veinticinco, la menor densidad celular central puede indicar necrosis.
+
+Hay un detalle importante: los tratamientos se aplicaron al día cuatro. Esto limita lo que estos experimentos pueden demostrar sobre la respuesta a radiación cuando ya existe un centro claramente hipóxico.
+
+## 11. Radioterapia e hipertermia
+
+**Duración: 0:45 · Reloj: 5:55–6:40**
+
+Los tratamientos son radioterapia, que utiliza radiación ionizante, e hipertermia, que eleva la temperatura. La dosis de radiación se expresa en gray.
+
+La dosis térmica se expresa como CEM43: minutos equivalentes acumulados a cuarenta y tres grados. Combina el efecto de tiempo y temperatura. En los experimentos, la temperatura real fue de cuarenta y siete grados; cinco minutos corresponden a ochenta CEM43.
+
+Para el modelo, la diferencia central es que la muerte por radiación está ligada a la división, mientras que el calor también puede eliminar células en reposo. Esto cambia dónde se libera espacio y cómo se reorganiza el esferoide.
+
+## 12. Esferoides tumorales (*tumour spheroids*)
+
+**Duración: 0:40 · Reloj: 6:40–7:20**
 
 Un esferoide tumoral es un agregado tridimensional de células, sin vasos sanguíneos. Permite estudiar gradientes de oxígeno y contactos celulares que no aparecen de la misma manera en un cultivo plano.
 
-Los autores sembraron trescientas células HCT116, dejaron que formaran el agregado y aplicaron el tratamiento al día cuatro. Después siguieron su evolución durante tres semanas, midiendo su diámetro.
+Los autores sembraron trescientas células HCT116, dejaron que se formara el esferoide y lo trataron al día cuatro. Después siguieron su diámetro durante tres semanas.
 
-Ese diámetro a lo largo del tiempo es el resultado que el modelo busca reproducir: cuánto se reduce el esferoide, cuánto tarda en volver a crecer y si el recrecimiento aparece dentro del periodo observado. Ahora podemos pasar de esta descripción biológica a su representación matemática.
+Ese diámetro a lo largo del tiempo es lo que queremos reproducir: reducción, retraso del crecimiento y recrecimiento. Ya tenemos el contexto necesario para explicar cómo se representa todo esto en la simulación.
 
-## 11. Modelo: un autómata celular 3D
+## 13. Modelo: un autómata celular 3D
 
-**Duración: 1:20 · Reloj: 7:00–8:20**
+**Duración: 1:40 · Reloj: 7:20–9:00**
 
-El modelo utiliza una malla tridimensional de pequeños cubos llamados vóxeles. Cada vóxel puede estar vacío o contener una célula, y cada célula conserva información sobre su estado, su reloj y su destino después del tratamiento.
+[Fuente exclusiva de esta explicación: artículo [1], «Computational model», p. 2; oxigenación, pp. 2–3.]
 
-El lado de cada vóxel es de doce micrómetros y una malla típica tiene doscientas posiciones en cada dirección. Eso corresponde a ocho millones de posiciones posibles, aunque no todas están ocupadas.
+Cada posición de la malla está vacía o contiene una célula. La célula tiene una fase del ciclo, un reloj individual y, después del tratamiento, una marca de supervivencia o de muerte futura. Cada vóxel mide doce micrómetros de lado.
 
-Para dividirse, la célula busca un sitio libre en un vecindario cercano. Los autores alternan vecindarios de Moore y de von Neumann, hasta segundo orden, y favorecen posiciones que mantienen un agregado compacto.
+[Señalar el esquema matemático. C sub i es la célula que intenta dividirse; F sub i reúne los sitios vecinos libres. Es una notación explicativa de las reglas del artículo, no una ecuación adicional que este formule.]
 
-[Señalar las reglas locales.]
+La generación de células nuevas ocurre por división. Cada célula avanza por G1, S, G2 y M según su reloj, comenzando en una fase aleatoria. Cuando intenta dividirse, se busca espacio libre en sus vecindarios de Moore y de von Neumann, alternados hasta segundo orden. Se favorecen posiciones más centrales para mantener un agregado compacto.
 
-Conceptualmente, en cada paso se actualiza el oxígeno, se avanza el ciclo celular y se comprueba si puede haber división. También se aplican las reglas de muerte y eliminación. Si aparecen huecos, se reacomodan las células para conservar la estructura del agregado.
+Si la división se completa, una célula da lugar a dos hijas: el número de células aumenta en una y hace falta una posición adicional. Si no hay espacio, no se genera una célula nueva: la célula entra en G0.
 
-Ese reacomodo no es una simulación explícita de migración celular. Es una simplificación geométrica. La idea del autómata es que muchas reglas locales produzcan una dinámica global que podamos comparar con el experimento.
+Quiescente significa precisamente eso: una célula en reposo, que no se divide en ese momento. En este modelo, G0 es reversible: si se libera espacio vecino, puede reingresar al ciclo.
 
-## 12. Oxígeno: difusión y consumo
+También hay reglas de pérdida de células: la hipoxia persistente puede causar muerte; las células necróticas se eliminan probabilísticamente. Muerte y eliminación no son el mismo evento. El conjunto se reacomoda hacia dentro para conservar su estructura, sin simular migración explícita.
 
-**Duración: 1:25 · Reloj: 8:20–9:45**
+Por tanto, el crecimiento no se impone como una curva: resulta de divisiones locales, limitación de espacio, muerte y eliminación.
 
-Además de las células discretas, el modelo necesita un campo de oxígeno. Esa combinación es la que hace que podamos describirlo como un modelo híbrido.
+## 14. Oxígeno: difusión y consumo
 
-[Señalar cada término de la ecuación, sin leer todos los símbolos.]
+**Duración: 1:10 · Reloj: 9:00–10:10**
 
-A la izquierda tenemos cómo cambia la presión parcial de oxígeno con el tiempo. El primer término de la derecha describe la difusión: el oxígeno se distribuye espacialmente. El segundo representa el consumo celular. En un vóxel vacío no hay consumo; donde hay una célula, sí lo hay.
+A las células discretas se añade un campo continuo de oxígeno. Por eso hablamos de un modelo híbrido.
 
-En el exterior se fija una presión de cien milímetros de mercurio. Las células se consideran hipóxicas por debajo del umbral de once milímetros de mercurio utilizado en este modelo.
+[Señalar los términos de la ecuación.]
 
-La difusión ocurre en una escala de segundos, mientras que el ciclo celular toma horas. Por eso, dentro de cada iteración del ciclo, los autores calculan el oxígeno hasta alcanzar prácticamente el equilibrio.
+A la izquierda está el cambio temporal de la presión parcial de oxígeno. A la derecha, el primer término describe la difusión y el segundo el consumo celular. En una posición vacía no hay consumo; donde hay una célula, sí.
 
-Esta distribución se conecta de vuelta con las reglas celulares: una célula que permanece bajo hipoxia puede morir y contribuir al núcleo necrótico. Así, el crecimiento modifica el oxígeno y el oxígeno modifica la evolución del esferoide.
+En el exterior se fijan cien milímetros de mercurio, y el modelo utiliza once milímetros de mercurio como umbral de hipoxia.
 
-## 13. Dos tratamientos, dos dinámicas de muerte
+La difusión ocurre en segundos y el ciclo celular en horas. Por eso se calcula el oxígeno hasta alcanzar prácticamente el equilibrio dentro de cada iteración del ciclo.
 
-**Duración: 1:30 · Reloj: 9:45–11:15**
+Así se conectan las dos partes: el crecimiento modifica la distribución de oxígeno y la hipoxia puede modificar la supervivencia celular.
 
-Para la radiación, la fracción que conserva supervivencia clonogénica se calcula con un modelo lineal-cuadrático. No necesitamos desarrollar toda la ecuación; lo relevante es que depende de la dosis, de parámetros de la línea celular, de la fase del ciclo y de la oxigenación.
+## 15. Dos tratamientos, dos dinámicas de muerte
 
-Después se asigna aleatoriamente a cada célula un destino de supervivencia o de muerte. Pero estar marcada para morir no significa desaparecer en ese instante. La célula intenta dividirse y tiene una probabilidad de morir en ese intento. Incluso puede dividirse y transmitir la marca a sus hijas. Las células en G0 pueden permanecer dañadas hasta reactivarse.
+**Duración: 1:20 · Reloj: 10:10–11:30**
 
-En cambio, para el calor se emplea un modelo de supervivencia AlphaR ajustado a las observaciones en tres dimensiones. A las células destinadas a morir se les asigna un retraso, independiente de la proliferación. Cuando este termina, se eliminan de la malla.
+[Fuente exclusiva: artículo [1], ecuaciones 2–5 y figura 1, pp. 3–4. La ecuación visible aquí es de radiación; las ecuaciones térmicas se muestran en la diapositiva siguiente.]
 
-[Contrastar las dos columnas.]
+[Señalar la ecuación.]
 
-La diferencia espacial es importante: con calor también pueden liberarse espacios en regiones quiescentes. Eso favorece reoxigenación y reactivación de células supervivientes. Con radiación, la reducción sigue más estrechamente la zona donde se intenta proliferar. Esta es la explicación que el modelo pone a prueba.
+La ecuación que vemos corresponde a radiación. S sub RT es la fracción de supervivencia clonogénica: la proporción que conserva capacidad reproductiva. La dosis de radiación es d, en gray. La presión parcial de oxígeno se representa como p sub O dos.
 
-## 14. Combinación RT + HT
+OER es el factor que corrige la dosis por la menor radiosensibilidad de las células hipóxicas. Al dividir d entre OER obtenemos d sub OER, la dosis aparente usada en la ecuación. Gamma pondera la sensibilidad según la fase del ciclo celular.
 
-**Duración: 1:05 · Reloj: 11:15–12:20**
+Alfa y beta son coeficientes propios de la línea celular: alfa multiplica la dosis y controla el término lineal; beta multiplica la dosis al cuadrado y controla el término cuadrático. Para una misma dosis y las demás condiciones fijas, valores mayores reducen la supervivencia calculada.
 
-Para combinar ambos tratamientos, los autores conectan las dos cascadas de respuesta. Primero se asigna una fracción a la vía de muerte por radiación. Dentro de la población restante, algunas células siguen la vía de muerte por calor y las demás sobreviven.
+Con esa fracción se sortean células supervivientes y destinadas a morir. Estas últimas no desaparecen inmediatamente: mueren con cierta probabilidad al intentar dividirse; si llegan a dividirse, ambas hijas conservan la marca.
 
-[Seguir las ramas del diagrama.]
+La columna del calor anticipa una regla distinta: la muerte no exige dividirse. Ahora voy a mostrar cómo se calcula esa supervivencia térmica.
 
-La supervivencia total se expresa como el producto que vemos arriba. Sin embargo, esto no significa que sean dos efectos independientes. La radiosensibilización por calor ya está incorporada en los parámetros alfa y beta del componente radiativo, que dependen de la dosis térmica.
+## 16. Hipertermia: modelo de supervivencia
 
-También debemos cuidar la interpretación del diagrama: sus últimas dos ramas son fracciones de la población que quedó tras la primera asignación. La pregunta experimental será si, una vez ajustadas las reglas de radiación y calor, este esquema permite reproducir la combinación sin volver a ajustar los parámetros.
+**Duración: 1:10 · Reloj: 11:30–12:40**
 
-## 15. Calibración y validación
+[Señalar la primera ecuación. Fuente exclusiva: artículo [1], ecuaciones 4–5, pp. 3–4.]
 
-**Duración: 0:55 · Reloj: 12:20–13:15**
+Ahora sí vemos el modelo de calor. S sub A identifica el cálculo AlphaR. El menos logaritmo de la supervivencia tiene un tramo cuadrático y después uno lineal. La dosis térmica es t sub cuarenta y tres, medida en CEM43. CEM43 significa minutos equivalentes acumulados a cuarenta y tres grados Celsius: combina temperatura y duración en una dosis térmica equivalente; no es necesariamente el tiempo real de calentamiento.
 
-Para evaluar esa pregunta hay que distinguir calibrar de validar. Calibrar es usar datos para elegir parámetros; validar es comprobar el modelo con condiciones que no se utilizaron para ese ajuste.
+Beta sub HT controla el tramo cuadrático, alfa sub cero el lineal y gamma sub HT pondera la sensibilidad por fase. D sub T es la dosis térmica donde cambia el tramo, no una temperatura.
 
-En radiación, ajustaron la curva de diez gray y después simularon dos y cinco gray sin cambiar esos parámetros. En hipertermia, ajustaron doscientos cuarenta CEM43 y comprobaron cuarenta y ochenta. Para la combinación no hicieron nuevos ajustes.
+[Señalar la segunda ecuación.]
 
-El oxígeno se comparó con un modelo analítico y con observaciones histológicas. El crecimiento sin tratamiento también se calibró. La concordancia entre curvas se resumió mediante R cuadrada. Por tanto, debemos interpretar cada resultado según si corresponde a un ajuste o a una comprobación posterior.
+Para representar la mayor resistencia observada en esferoides, por encima de ciento sesenta CEM43 se usa una meseta de supervivencia. Ese corte es distinto de D sub T.
 
-## 16. Resultados: crecimiento sin tratamiento
+Con S sub HT se sortean destinos. Las células que morirán reciben un retraso aleatorio; cuando termina, se eliminan sin exigir división. Esto también puede liberar espacio en regiones quiescentes: células en G0 que no están proliferando.
 
-**Duración: 1:00 · Reloj: 13:15–14:15**
+## 17. Combinación RT + HT
 
-Primero veamos si el modelo reproduce el sistema antes de tratarlo. En la gráfica de la izquierda, los puntos son las mediciones del diámetro y la línea roja es la simulación. La curva calibrada alcanza una R cuadrada de cero punto noventa y nueve, con un tiempo de duplicación ajustado de veintiocho horas.
+**Duración: 1:20 · Reloj: 12:40–14:00**
 
-[Señalar las imágenes experimentales y luego los cortes simulados.]
+[Fuente exclusiva: artículo [1], «Implementation of radiation and hyperthermia combinations» y figura 2, p. 5.]
 
-La comparación espacial también muestra una coincidencia cualitativa de la región central muerta. En el análisis del oxígeno, las diferencias respecto al modelo analítico llegan hasta un quince por ciento. Ese porcentaje corresponde al campo de oxígeno, no al error del diámetro.
+Aquí es fundamental distinguir tres símbolos. S sub RT es la supervivencia por radiación sola. S sub HT describe la supervivencia por calor. S sub RTHT, aunque el nombre pueda confundir, es el componente de supervivencia radiativa modificado por el calentamiento; no es todavía la supervivencia total combinada.
 
-Esto da una base para estudiar el tratamiento, aunque recordemos que la curva de crecimiento sin tratar formó parte de la calibración.
+Se calcula con la ecuación lineal-cuadrática anterior, pero ahora alfa y beta dependen de la dosis térmica. Siguen siendo los coeficientes de los términos lineal y cuadrático de radiación; su dependencia del calor introduce la radiosensibilización.
 
-## 17. Resultados: RT y HT por separado
+[Señalar las ramas.]
 
-**Duración: 1:30 · Reloj: 14:15–15:45**
+Una fracción uno menos S sub RTHT sigue la vía de muerte por radiación. De la fracción restante, una proporción uno menos S sub HT sigue la vía de muerte por calor.
 
-En estas gráficas, el eje vertical es el diámetro del esferoide y el horizontal corresponde a los días desde la siembra. Los puntos son los experimentos y las líneas rojas son las simulaciones. La fila superior corresponde a radiación y la inferior a hipertermia.
+La proporción final que sobrevive a ambas asignaciones es S sub RTHT por S sub HT. Ese producto sí es la supervivencia combinada total. No se están suponiendo simplemente dos efectos independientes: el calor ya modifica los coeficientes del componente radiativo.
 
-[Señalar la primera columna.]
+## 18. Calibración y validación
 
-Aquí están las dos condiciones utilizadas para ajustar: diez gray y doscientos cuarenta CEM43. Las otras columnas muestran las condiciones posteriores de validación.
+**Duración: 1:30 · Reloj: 14:00–15:30**
 
-Después de diez gray observamos reducción sin recrecimiento durante la ventana estudiada. Después de la dosis térmica alta aparece una reducción marcada, seguida de recrecimiento. Estas dos curvas ilustran dinámicas distintas; no las estoy presentando como una pareja de dosis cuya equivalencia clonogénica se haya demostrado en esta figura.
+Para entender cómo evaluaron el modelo, hay que distinguir calibración de validación. Calibrar es elegir parámetros usando ciertos datos. Validar es conservar esos parámetros y comprobar otras condiciones.
 
-En general, las R cuadradas están entre cero punto noventa y cuatro y cero punto noventa y ocho. Pero también hay un desacuerdo visible: para cuarenta y ochenta CEM43, el modelo subestima el diámetro en los primeros días. Los autores plantean que podría intervenir un aflojamiento de la estructura o cambios en la matriz que no se modelaron. La concordancia es buena, pero no perfecta.
+Primero ajustaron la distribución de oxígeno del autómata. La compararon con un modelo analítico ya publicado y adaptaron el coeficiente de difusión para reducir las diferencias. Después ajustaron el crecimiento sin tratamiento con curvas experimentales de esferoides sin tratar. Aquí intervienen la cantidad inicial de células, el tiempo de duplicación, la muerte por hipoxia y la eliminación de células necróticas.
 
-## 18. Resultados: tratamiento combinado
+Con esa base, calibraron la respuesta a los tratamientos. Para radiación usaron la curva de diez gray; para hipertermia, la de doscientos cuarenta CEM43. Esas dosis permiten ajustar la respuesta al tratamiento, no el modelo analítico de oxígeno ni el crecimiento sin tratar.
 
-**Duración: 1:15 · Reloj: 15:45–17:00**
+Después conservaron los parámetros y simularon dos y cinco gray, y cuarenta y ochenta CEM43. Finalmente, comprobaron la combinación de dos gray con distintas dosis térmicas, sin nuevos ajustes.
 
-Ahora vemos la combinación de dos gray con tres dosis térmicas. De izquierda a derecha, esas dosis son ciento sesenta, ochenta y cuarenta CEM43.
+La histología aporta una comparación complementaria: son cortes experimentales que permiten observar hipoxia, proliferación y distribución celular. No es otro modelo matemático. Sirve para comprobar cualitativamente la organización espacial, mientras que las curvas de diámetro y sus valores de R cuadrada permiten evaluar la evolución temporal. Ahora veamos los resultados de estas comparaciones.
 
-[Recorrer las tres curvas.]
+## 19. Resultados: crecimiento sin tratamiento
 
-Con la mayor dosis térmica, el diámetro disminuye durante gran parte del seguimiento. En las otras condiciones aparece recrecimiento, con distintos retrasos. Las simulaciones reproducen esas tendencias con R cuadradas de cero punto ochenta y seis, cero punto ochenta y ocho y cero punto noventa y seis, respectivamente.
+**Duración: 1:10 · Reloj: 15:30–16:40**
 
-El resultado que más me interesa destacar es que estas curvas se obtuvieron sin un nuevo ajuste de parámetros para la combinación. Eso apoya la utilidad de conectar las reglas calibradas para cada modalidad.
+Primero veamos el crecimiento sin tratamiento. A la izquierda, los puntos son mediciones del diámetro y la línea roja es la simulación. R cuadrada es el coeficiente de determinación: resume qué tan bien reproduce la curva los datos. El valor de cero punto noventa y nueve indica un ajuste muy alto; no significa noventa y nueve por ciento de eficacia terapéutica. Esta curva se utilizó para calibrar el modelo.
 
-El alcance sigue siendo el sistema experimental estudiado: no demuestra todavía que el modelo pueda seleccionar tratamientos para un paciente, pero sí muestra que puede describir respuestas multimodales en estos esferoides.
+[Señalar el panel B, arriba a la derecha, y recorrerlo de izquierda a derecha.]
 
-## 19. Conclusiones
+Arriba vemos imágenes experimentales de los días cuatro, once, dieciocho y veinticinco. Combinan microscopía de contraste de fases con fluorescencia de yoduro de propidio, que marca células muertas en naranja. La señal central aumenta con el tiempo.
 
-**Duración: 1:10 · Reloj: 17:00–18:10**
+[Señalar el panel C, debajo.]
 
-Podemos responder ahora la pregunta inicial: conocer la supervivencia clonogénica no basta para describir cómo cambia el tamaño del esferoide. También importa cuándo mueren las células, dónde están y qué cambios producen en su entorno.
+Abajo vemos cortes centrales de los esferoides simulados: naranja para células necróticas, gris claro para quiescentes y gris oscuro para proliferantes. Las imágenes experimentales y simuladas están a la misma escala. La comparación muestra una coincidencia cualitativa en la región central muerta.
 
-El aporte del trabajo es mostrar que un autómata relativamente sencillo, acoplado a difusión de oxígeno y a distintas reglas de muerte, puede reproducir las curvas estudiadas. Además, los parámetros ajustados por separado permiten describir tratamientos combinados sin reajustes.
+El quince por ciento mencionado en la diapositiva corresponde a otra comparación: oxígeno simulado frente al modelo analítico, no al error del diámetro ni a estas imágenes.
 
-Pero hay límites claros: se estudió una sola línea celular, con geometría simplificada, sin vasculatura ni respuesta inmune y sin describir explícitamente pH o glucosa. También falta validar mejor el efecto de la hipoxia sobre la respuesta a radiación.
+## 20. Resultados: RT y HT por separado
 
-Por eso lo interpretaría como un primer paso para conectar mecanismos celulares y respuesta colectiva, que requiere ampliación y nueva validación antes de trasladarse a tumores in vivo.
+**Duración: 1:00 · Reloj: 16:40–17:40**
 
-## 20. Referencias y preguntas
+El eje vertical representa el diámetro y el horizontal los días desde la siembra. Los puntos son los experimentos y las líneas rojas, las simulaciones. Arriba vemos radiación; abajo, hipertermia.
 
-**Duración: 0:20 · Reloj: 18:10–18:30**
+[Señalar la primera columna y después las demás.]
 
-Esta es la referencia del artículo original, de donde se tomaron los datos y las figuras presentadas. Con esto termino la exposición. Muchas gracias por su atención; podemos pasar a las preguntas.
+La primera columna corresponde a las condiciones de calibración. Las otras muestran condiciones de validación.
+
+Tras diez gray aparece reducción sin recrecimiento durante la ventana observada. Tras la dosis térmica alta, hay una reducción marcada seguida de recrecimiento. Estas curvas ilustran distintas dinámicas, aunque esta figura no demuestra que esas dos dosis sean una pareja clonogénicamente equivalente.
+
+La concordancia general es buena, con R cuadradas entre cero punto noventa y cuatro y cero punto noventa y ocho. También hay un desacuerdo: para cuarenta y ochenta CEM43, el modelo subestima el diámetro temprano. Los autores proponen que cambios estructurales o de la matriz no modelados podrían contribuir a esa diferencia.
+
+## 21. Resultados: tratamiento combinado
+
+**Duración: 0:50 · Reloj: 17:40–18:30**
+
+Aquí vemos dos gray combinados, de izquierda a derecha, con ciento sesenta, ochenta y cuarenta CEM43.
+
+[Recorrer las tres gráficas.]
+
+Con la dosis térmica mayor, el diámetro disminuye durante gran parte del seguimiento. En las otras condiciones aparece recrecimiento, con distintos retrasos. Las R cuadradas son cero punto ochenta y seis, cero punto ochenta y ocho y cero punto noventa y seis.
+
+Lo principal es que estas curvas se obtuvieron sin reajustar los parámetros para la combinación. Esto apoya la utilidad de conectar las reglas calibradas para cada modalidad.
+
+El resultado corresponde a estos esferoides experimentales; todavía no demuestra que el modelo pueda seleccionar un tratamiento para pacientes.
+
+## 22. Conclusiones
+
+**Duración: 1:00 · Reloj: 18:30–19:30**
+
+Podemos responder la pregunta inicial: conocer la supervivencia clonogénica no basta para describir el tamaño del esferoide en el tiempo. También importan el momento de la muerte, la posición celular y los cambios en el microambiente.
+
+El trabajo muestra que un autómata acoplado a difusión de oxígeno y a distintas reglas de muerte reproduce las curvas estudiadas. Además, permite describir la combinación sin reajustar sus parámetros.
+
+Los límites son claros: una sola línea celular, geometría simplificada y ausencia de vasculatura, respuesta inmune y modelado explícito de pH o glucosa. También falta validar mejor el efecto de la hipoxia sobre radiación.
+
+Su contribución es conectar mecanismos celulares y respuesta colectiva en un sistema controlado. La extensión a tumores in vivo requiere nuevos desarrollos y validación.
+
+## 23. Referencias
+
+**Duración: 0:20 · Reloj: 19:30–19:50**
+
+Estas son las tres fuentes de la presentación: el artículo original para el modelo y los resultados, AccessMedicina para la definición celular y Ross para el contexto y las figuras de ciclo y muerte celular. Muchas gracias por su atención; podemos pasar a las preguntas.
+
+## Apoyo técnico para entender el modelo — no se lee completo durante la exposición
+
+Este bloque es para estudiar y responder preguntas. **No forma parte del reloj de 19:50.** Se basa únicamente en el artículo [1], pp. 2–5; los parámetros ajustados se toman de p. 7.
+
+### A. Reglas de transición y nacimiento de células
+
+El artículo describe reglas acopladas a oxígeno y tratamiento, no una única función de transición cerrada. Esta tabla las organiza para explicarlas; no transcribe código ni fija un orden de actualización que el PDF no especifica.
+
+| Situación | Regla descrita | Consecuencia |
+|---|---|---|
+| Célula en ciclo | Avanza por G1, S, G2 y M según su reloj individual, desde una fase inicial aleatoria. | Las células no empiezan todas en la misma fase. |
+| División con espacio disponible | Se buscan posiciones libres alternando vecindarios 3D de Moore y von Neumann hasta segundo orden; se favorecen posiciones centrales. | Dos hijas por división: aumento neto de una célula y necesidad de espacio adicional. |
+| No hay espacio | Entrada en G0 reversible. | No se completa una nueva división mientras falte espacio. |
+| Se libera espacio vecino | La célula en G0 puede reactivarse. | Recupera la posibilidad de proliferar. |
+| Hipoxia persistente | Por debajo del umbral de 11 mmHg, las células hipóxicas mueren con probabilidad $p_{\mathrm{hypoxiaDeath}}$ por paso si no vuelven a normoxia. | Puede formarse un núcleo necrótico. |
+| Célula necrótica | Se elimina con probabilidad $p_{\mathrm{clearNecrotic}}$ por paso. | Morir no implica vaciar inmediatamente el vóxel. |
+| Célula destinada a morir tras RT | En cada intento de división al final de M, muere con probabilidad $p_{\mathrm{mitoticDeath}}$; si divide, ambas hijas heredan la marca. | Puede existir crecimiento transitorio de células destinadas a morir. |
+| Célula destinada a morir tras HT | Recibe un retraso aleatorio hasta muerte; al terminar, se elimina inmediatamente. | La eliminación no exige un intento de división. |
+
+Resumen de una **división exitosa**, como explicación de la regla y no como ecuación adicional propuesta por los autores:
+
+$$
+1\ \text{célula}\longrightarrow 2\ \text{hijas},\qquad \Delta N=+1.
+$$
+
+El esferoide se inicializa como una esfera densa, con una célula por vóxel. La malla típica es $200^3$, con vóxeles de $0.012\ \mathrm{mm}=12\ \mu\mathrm{m}$ de lado. Se reacomodan células hacia dentro para conservar una estructura compacta, sin migración explícita.
+
+**Quiescencia, hipoxia y muerte no son sinónimos:** G0 es reposo reversible; hipoxia describe el oxígeno local; una célula destinada a morir puede seguir físicamente presente. Sin tratamiento no se impone envejecimiento ni un límite intrínseco de divisiones, pero siguen existiendo muerte hipóxica y restricción por espacio. Fuente: pp. 2–3 y figura 1, p. 4.
+
+**Detalles no especificados aquí:** el artículo remite a su referencia [30] para la implementación previa del ciclo. No se inventan duraciones de cada fase, reinicio exacto de los relojes de las hijas, duración del paso temporal ni una función determinista completa que el PDF de 2019 no proporcione.
+
+### B. Radiación: ecuación visible y significado de cada símbolo
+
+Ecuaciones 2 y 3, p. 3:
+
+$$
+S_{\mathrm{RT}}=\exp\!\left[-\gamma\left(\alpha d_{\mathrm{OER}}+\beta d_{\mathrm{OER}}^2\right)\right],\qquad
+ d_{\mathrm{OER}}=\frac{d}{\mathrm{OER}(p_{O_2})}.
+$$
+
+| Símbolo | Significado en este modelo |
+|---|---|
+| $S_{\mathrm{RT}}$ | Fracción de supervivencia clonogénica tras RT, usada para sortear supervivencia o muerte futura. No es la fracción físicamente eliminada de inmediato. |
+| $\exp$ | Función exponencial: notación matemática, no un parámetro biológico. |
+| $d$ | Dosis de radiación administrada, en Gy. |
+| $p_{O_2}$ | Presión parcial de oxígeno local, en mmHg. |
+| $\mathrm{OER}$ | *Oxygen enhancement ratio*: ponderación de la menor radiosensibilidad bajo hipoxia. |
+| $d_{\mathrm{OER}}$ | Dosis aparente corregida por oxígeno, en Gy; no es otra exposición. |
+| $\gamma$ | Ponderación por fase del ciclo celular. |
+| $\alpha$ | Coeficiente específico de la línea celular: multiplica la dosis y controla el término lineal. |
+| $\beta$ | Coeficiente específico de la línea celular: multiplica la dosis al cuadrado y controla el término cuadrático. |
+
+Por consistencia dimensional, $\alpha$ tiene unidades $\mathrm{Gy}^{-1}$ y $\beta$, $\mathrm{Gy}^{-2}$; las ponderaciones son adimensionales. Esta es una lectura matemática de la fórmula. No se atribuyen a alfa y beta mecanismos moleculares que el artículo de 2019 no desarrolla.
+
+La función implementada es:
+
+$$
+\mathrm{OER}(p_{O_2})=
+\begin{cases}
+1,&p_{O_2}>11\ \mathrm{mmHg},\\
+3-\dfrac{2p_{O_2}}{11\ \mathrm{mmHg}},&p_{O_2}\leq11\ \mathrm{mmHg}.
+\end{cases}
+$$
+
+En el límite de oxígeno nulo, OER es 3 y la dosis aparente es $d/3$; en 11 mmHg el factor es 1. Son consecuencias matemáticas de la ecuación 3, no nuevos experimentos.
+
+**Alfa y beta calculan supervivencia; no fijan el instante de muerte.** Esa dinámica se añade con $p_{\mathrm{mitoticDeath}}$: el ajuste usa 0.44 durante los primeros 3.5 días y 0.59 después. Si hay división exitosa, ambas hijas heredan la marca. Las supervivientes a RT continúan proliferando sin un retraso de ciclo añadido. Fuentes: pp. 3 y 7.
+
+El efecto de la hipoxia sobre RT no pudo ajustarse aquí por falta de hipoxia significativa al día de tratamiento (discusión, p. 9). No presentar OER como validado mediante ese contraste experimental.
+
+### C. Calor: ecuaciones visibles en la diapositiva 16
+
+**La ecuación de la diapositiva 15 es de radiación; la diapositiva 16 muestra HT.** Para calor se utilizan las ecuaciones 4 y 5, p. 3.
+
+Para distinguir el cálculo AlphaR de su modificación 3D, este guion lo etiqueta $S_{\mathrm{AlphaR}}$. Es una ayuda de lectura, no un modelo distinto:
+
+$$
+S_{\mathrm{HT}}(t_{43})=
+\begin{cases}
+S_{\mathrm{AlphaR}}(t_{43}),&t_{43}\leq160\ \mathrm{CEM43},\\
+S_{\mathrm{HT,plateau}},&t_{43}>160\ \mathrm{CEM43}.
+\end{cases}
+$$
+
+El cálculo AlphaR es:
+
+$$
+-\log S_{\mathrm{AlphaR}}(t_{43})=
+\begin{cases}
+\gamma_{\mathrm{HT}}\beta_{\mathrm{HT}}t_{43}^{2},&t_{43}\leq D_T,\\
+\gamma_{\mathrm{HT}}\left(\alpha_0t_{43}-\dfrac{\alpha_0^2}{4\beta_{\mathrm{HT}}}\right),&t_{43}>D_T,
+\end{cases}
+\qquad D_T=\frac{\alpha_0}{2\beta_{\mathrm{HT}}}.
+$$
+
+| Símbolo | Significado |
+|---|---|
+| $S_{\mathrm{HT}}$ | Fracción de supervivencia clonogénica al calor, con el ajuste usado para esferoides. |
+| $t_{43}$ | Dosis térmica en CEM43, tiempo equivalente a 43 °C; no necesariamente duración real de calentamiento. |
+| $\beta_{\mathrm{HT}}$ | Parámetro del tramo cuadrático de $-\log S$ térmico. |
+| $\alpha_0$ | Parámetro del tramo lineal de $-\log S$ térmico. |
+| $D_T$ | Dosis térmica de transición entre tramos, $\alpha_0/(2\beta_{\mathrm{HT}})$; no es temperatura. |
+| $\gamma_{\mathrm{HT}}$ | Ponderación por fase del ciclo; distingue células en ciclo y en G0. |
+| $S_{\mathrm{HT,plateau}}$ | Meseta impuesta por encima de 160 CEM43 para representar la mayor resistencia térmica observada en 3D. |
+
+No confundir los parámetros térmicos $\alpha_0,\beta_{\mathrm{HT}}$ con $\alpha,\beta$ de RT. Tampoco confundir $D_T$, cambio entre tramos AlphaR, con el corte de 160 CEM43 de la meseta 3D.
+
+**Hay dos partes:** asignar supervivencia o muerte futura mediante $S_{\mathrm{HT}}$ y establecer cuándo se ejecuta la muerte. El retraso hasta morir sigue una distribución normal; una vez que ocurre la muerte, la eliminación es inmediata. Las supervivientes tienen un arresto temporal del ciclo tomado de una distribución uniforme (p. 4).
+
+Parámetros ajustados: meseta 0.0005, retraso medio hasta muerte de 96 h y arresto medio del ciclo de supervivientes de 30 h (p. 7). «Independiente de la proliferación» **no significa instantánea** ni igual sensibilidad en todas las fases. Se pondera la sensibilidad por fase, pero no se exige división para morir. No se añade dependencia directa de la letalidad térmica con oxígeno ni pH (p. 4).
+
+### D. Combinación: significado de $S_{\mathrm{RTHT}}$
+
+La ecuación 2 se aplica con parámetros dependientes de la dosis térmica, como describe p. 5:
+
+$$
+S_{\mathrm{RTHT}}(d,t_{43})=
+\exp\!\left[-\gamma\left(\alpha(t_{43})d_{\mathrm{OER}}+\beta(t_{43})d_{\mathrm{OER}}^2\right)\right].
+$$
+
+Es el **componente radiativo sensibilizado por calor**, no la supervivencia final combinada. Esta escritura hace explícita la dependencia que describe el texto. El artículo remite a su referencia [30] para la parametrización previa; no se inventan fórmulas para $\alpha(t_{43})$ ni $\beta(t_{43})$.
+
+La supervivencia combinada es:
+
+$$
+S_{\mathrm{total}}(d,t_{43})=S_{\mathrm{RTHT}}(d,t_{43})S_{\mathrm{HT}}(t_{43}).
+$$
+
+$S_{\mathrm{total}}$ es una etiqueta explicativa del guion para el producto descrito por los autores. Las fracciones respecto de **toda la población inicial** son:
+
+| Destino | Fracción total |
+|---|---|
+| Vía de muerte RT | $1-S_{\mathrm{RTHT}}$ |
+| Vía de muerte HT | $S_{\mathrm{RTHT}}(1-S_{\mathrm{HT}})$ |
+| Supervivencia final | $S_{\mathrm{RTHT}}S_{\mathrm{HT}}$ |
+
+Las tres suman uno. El factor aislado $1-S_{\mathrm{HT}}$ es una proporción **condicionada a la población restante** tras la asignación RT, como muestra la figura 2. No es otra proporción de toda la población inicial.
+
+La sinergia se introduce modificando $\alpha$ y $\beta$ con la dosis térmica. No se debe presentar el producto como la multiplicación sin más de dos supervivencias de modalidades independientes. Las supervivientes continúan proliferando después del retraso de ciclo contemplado en la cascada (p. 5).
 
 ## Si el ensayo se acerca a los 20 minutos
 
-Conserva la pregunta principal, la diferencia RT/HT, la separación entre calibración y validación y las conclusiones. Para recuperar tiempo:
+Los puntos de control son más útiles que acelerar toda la lectura. Si terminas la introducción después de 7:20, ya estás consumiendo el margen. Abrevia primero la lectura de resultados; conserva las reglas de división y las definiciones de variables que motivan esta actualización:
 
-- En el autómata, omite los nombres de los vecindarios y explica solo la búsqueda de espacio cercano.
-- En oxígeno, explica difusión y consumo sin detenerte en ambos valores de presión.
-- En las gráficas individuales, compara las tendencias y menciona un intervalo de R²; no leas cada dosis y cada coeficiente.
-- En combinación, destaca la ausencia de reajuste y describe las curvas sin recitar los tres R².
+- **Diapositiva 13:** conserva división con espacio, bloqueo en G0 y reactivación; omite el recuento de posiciones y los detalles del reacomodo si hace falta.
+- **Diapositiva 14:** conserva difusión, consumo y el acoplamiento con las células; omite los valores de presión al hablar.
+- **Diapositiva 20:** compara las dos tendencias sin leer cada dosis ni todos los R².
+- **Diapositiva 21:** destaca que no hubo reajuste y describe las curvas sin recitar los tres coeficientes.
 
-Puedes usar esta transición para acelerar: «Los detalles numéricos están en la diapositiva; el resultado que quiero destacar es que el modelo reproduce las tendencias sin reajustar la combinación».
+En la introducción, evita explicar todos los orgánulos de la micrografía o todos los rótulos del ciclo. En la diapositiva 7 recorre las dos columnas, sin desarrollar «otras formas de muerte celular». El aviso de la diapositiva 6 es el cierre: no reinicies la explicación del ciclo después de mostrarlo.
+
+Conserva la pregunta inicial, las transiciones celulares, el significado de las variables RT/HT, la distinción entre supervivencia radiativa modificada y supervivencia combinada, y la separación entre calibración y validación. El apoyo técnico es para estudiar y responder: leerlo completo excedería el límite de 20 minutos.
+
+Frase para recuperar ritmo: «Los valores están en la diapositiva; lo que quiero destacar es que el modelo reproduce estas tendencias sin reajustar la combinación».
 
 ## Respuestas breves para los 5 minutos de preguntas
 
@@ -286,7 +515,11 @@ Puedes usar esta transición para acelerar: «Los detalles numéricos están en 
 
 ### ¿Qué significa una R² alta?
 
-«Indica buena concordancia entre las curvas comparadas según esa medida. Hay que distinguir si se trata de una curva de calibración o de validación. No demuestra por sí sola que los mecanismos propuestos sean los únicos posibles ni que exista validación clínica».
+«R² es el coeficiente de determinación: resume qué tan bien se ajustan las predicciones a los datos. Un valor próximo a uno indica un ajuste alto. No representa la proporción de células eliminadas ni un porcentaje de eficacia terapéutica. En el crecimiento sin tratamiento, 0.99 corresponde a una curva utilizada para calibrar. Una R² alta no demuestra por sí sola que el mecanismo sea único ni valida clínicamente el modelo».
+
+### ¿Qué muestran las imágenes de la derecha de la diapositiva 19?
+
+«El panel B muestra microscopía experimental de contraste de fases combinada con señal de yoduro de propidio, naranja, que marca células muertas. El panel C muestra cortes ecuatoriales simulados: naranja para células necróticas, gris claro para quiescentes y gris oscuro para proliferantes. Corresponden a los días 4, 11, 18 y 25 y se presentan a la misma escala. Se compara cualitativamente la distribución espacial de células muertas. No son mapas de oxígeno ni las tinciones de hipoxia de la otra figura» (artículo [1], figura 5, p. 7).
 
 ### ¿Por qué es importante que la combinación no se reajuste?
 
@@ -304,8 +537,34 @@ Puedes usar esta transición para acelerar: «Los detalles numéricos están en 
 
 «Ese aspecto no se evaluó en este trabajo. Lo que sí muestran los resultados es…». Retoma después la evidencia pertinente. Es preferible delimitar el alcance a atribuirle al artículo un resultado que no presenta.
 
-## Fuente para repasar antes de exponer
+### ¿Cómo se genera una célula nueva y qué pasa si no hay sitio?
 
-Brüningk, S. C. et al. (2019). *A cellular automaton model for spheroid response to radiation and hyperthermia treatments*. Scientific Reports, 9, 17674. https://doi.org/10.1038/s41598-019-54117-x.
+«Por división de una célula que recorre su ciclo. Si la división se completa con espacio disponible, produce dos hijas: hay una célula más. Sin espacio, entra en G0; cuando se libera espacio vecino puede reactivarse. El crecimiento se obtiene de estas reglas, no de insertar células para ajustar directamente una curva» (p. 2).
 
-Para el modelo: pp. 2–5. Para ajuste y validación: pp. 5–6. Para las figuras y resultados: pp. 6–8. Para límites y conclusiones: pp. 9–10. Las respuestas anteriores se basan en ese contenido; las propuestas de mejora están identificadas como continuación.
+### ¿Qué significa quiescente?
+
+«En este modelo es una célula en G0, en reposo reversible. No está proliferando, pero no equivale a estar muerta ni necesariamente hipóxica. Puede reingresar al ciclo cuando se libera espacio vecino» (pp. 2–4).
+
+### ¿La ecuación de la diapositiva 15 también modela el calor?
+
+«No. La ecuación de la diapositiva 15 es de radiación. La diapositiva 16 muestra el calor con las ecuaciones 4 y 5: supervivencia AlphaR ajustada a 3D mediante una meseta para dosis superiores a 160 CEM43. Después se añade el retraso temporal hasta la muerte y la eliminación» (pp. 3–4).
+
+### ¿Qué son alfa y beta, y qué es S sub RTHT?
+
+«Alfa y beta ponderan las contribuciones lineal y cuadrática de la dosis en la supervivencia radiativa. En combinación dependen de la dosis térmica. S sub RTHT es ese componente radiativo modificado por calor; la supervivencia final es su producto con S sub HT» (pp. 3 y 5).
+
+### ¿Qué fuentes sustentan la introducción y cuáles el modelo?
+
+«La definición de célula se apoya en AccessMedicina, referencia dos. El contexto visual de ciclo celular y muerte celular se atribuye a Ross, referencia tres. Las reglas del autómata, los datos y los resultados corresponden al artículo de Brüningk, referencia uno. Una ilustración de biología no implica que el modelo simule todos los procesos que muestra».
+
+## Referencias para repasar antes de exponer
+
+[1] S. C. Brüningk et al., «A cellular automaton model for spheroid response to radiation and hyperthermia treatments», *Scientific Reports*, vol. 9, art. 17674, 2019. [DOI](https://doi.org/10.1038/s41598-019-54117-x).
+
+Para las reglas: pp. 2–5; calibración y validación: pp. 5–6; figuras y resultados: pp. 6–8; discusión, límites y conclusiones: pp. 9–10.
+
+[2] J. Sepúlveda Saavedra y A. Soto Domínguez, «La célula», en *Texto atlas de histología. Biología celular y tisular*, 2.ª ed., cap. 2. McGraw-Hill, 2014. [AccessMedicina](https://accessmedicina.mhmedical.com/content.aspx?bookid=1506&sectionid=98182026). Consultado: 2 de noviembre de 2026.
+
+[3] W. Pawlina y M. H. Ross, *Ross. Histología: texto y atlas. Correlación con biología molecular y celular*, 8.ª ed. Barcelona, España: Wolters Kluwer, 2020. [PDF proporcionado para la presentación](https://ia601603.us.archive.org/11/items/histologia-ross-8/Histologia%20Ross%208.pdf).
+
+Las respuestas sobre el autómata se basan en [1]. Las propuestas de mejora son continuaciones posibles, no resultados ya obtenidos. El guion no incorpora páginas ni números de figura de Ross que no se hayan verificado.
