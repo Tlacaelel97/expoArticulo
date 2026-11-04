@@ -13,9 +13,9 @@ const { $page } = useSlideContext()
 <style scoped>
 .slide-number {
   position: absolute;
-  right: 16px;
-  bottom: 12px;
-  z-index: 1000;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10000;
   min-width: 40px;
   padding: 5px 10px;
   border: 1px solid #67e8f9;
@@ -23,7 +23,7 @@ const { $page } = useSlideContext()
   background: #164e63;
   color: #fff;
   font-family: sans-serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
   text-align: center;

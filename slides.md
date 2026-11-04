@@ -22,6 +22,8 @@ Modelación
 
 <div class="mt-6 text-sm opacity-70">Radiación, hipertermia y dinámica de crecimiento en esferoides tumorales</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 0:20. Presentar título, autor de la exposición y tema.
 Fuente: artículo, p. 1. Duración objetivo del guion: 18:30, con 1:30 de margen hasta 20 min; preguntas: 5 min aparte.
@@ -32,6 +34,8 @@ Fuente: artículo, p. 1. Duración objetivo del guion: 18:30, con 1:30 de margen
 # Contenido
 
 <Toc text-sm columns="2" minDepth="1" maxDepth="2" />
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:20. Presentar brevemente el contenido de la exposición.
@@ -46,6 +50,8 @@ class: text-center
 La menor radiosensibilidad de las células hipóxicas dificulta la respuesta tumoral a la radiación y motiva su combinación con hipertermia como estrategia de radiosensibilización. Los esferoides tumorales 3D permiten estudiar esta respuesta considerando el microambiente. Brüningk et al. proponen un autómata celular que simula el crecimiento de esferoides HCT116, la difusión de oxígeno y la respuesta a radiación (RT) e hipertermia (HT). Aunque ambos tratamientos pueden producir una supervivencia clonogénica comparable, generan <span v-mark.underline.red="1">distintas dinámicas de crecimiento</span>. Para explicar esta diferencia, el modelo distingue la <span v-mark.underline.blue="2">muerte dependiente de la división tras radiación</span> de la muerte independiente de la proliferación tras calentamiento. Su comparación con datos experimentales muestra que considerar estos mecanismos permite reproducir la reducción y el recrecimiento del esferoide, incluso con tratamientos combinados.
 
 <div class="source">Fuente: &#91;1&#93;, resumen e introducción, pp. 1–2; resultados y discusión, pp. 7–10.</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:50. El párrafo está visible completo desde el inicio. Usar dos avances para guiar la explicación con subrayados animados nativos de Slidev (v-mark).
@@ -72,6 +78,8 @@ La célula representa la unidad morfológica y funcional que compone a los seres
 </figure>
 </div>
 
+<SlideNumber />
+
 
 ---
 
@@ -89,6 +97,8 @@ La célula representa la unidad morfológica y funcional que compone a los seres
 
 <div class="source">Fuente: &#91;1&#93;, modelo computacional, pp. 2–4. Esquema conceptual de la exposición.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 0:40. Usar esta slide como puente a la modelación, sin desarrollar organelos.
 El artículo no es una fuente de biología celular general: aquí se resume únicamente qué propiedades conserva el modelo.
@@ -101,6 +111,8 @@ level: 2
 # Ciclo celular
 
 <CellCycle />
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:55.
@@ -131,6 +143,8 @@ El oxígeno y el espacio afectan la progresión y supervivencia; reposo no signi
 </div>
 </div>
 
+<SlideNumber />
+
 
 ---
 level: 2
@@ -150,6 +164,8 @@ level: 2
 
 <div class="source">Fuente: &#91;1&#93;, métodos, pp. 2–4; discusión, p. 9.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 0:40. Conservar el tema solicitado sin presentar apoptosis como explicación universal.
 -->
@@ -165,6 +181,8 @@ Tiempo: 0:40. Conservar el tema solicitado sin presentar apoptosis como explicac
 <div class="takeaway">La pregunta se centra en la heterogeneidad dentro de un modelo tumoral.</div>
 
 <div class="source">Fuente: &#91;1&#93;, introducción y datos experimentales, pp. 1–2.</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:40. Vincular el contexto de cáncer con la heterogeneidad que motiva el modelo.
@@ -188,6 +206,8 @@ level: 2
 **Hipoxia ≠ necrosis.** Al día 4, cuando se trata, no hay hipoxia significativa; aparece después.
 
 <div class="source">Figura 4 de &#91;1&#93;, p. 7, CC BY 4.0. Recorte del PDF original.</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 1:00. Hipoxia: bajo oxígeno; necrosis: tejido/células muertas. No identificar toda señal verde como muerte.
@@ -214,6 +234,8 @@ En los experimentos se calentó a **47 °C**; la dosis equivalente permite expre
 
 <div class="source">Fuente: &#91;1&#93;, resumen, datos experimentales y métodos, pp. 1–4; figura 6, p. 8.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 0:55. Gy es unidad de dosis absorbida. CEM43 no son grados Celsius ni duración real salvo a 43 °C.
 Ejemplo del propio artículo: 47 °C durante 2.5, 5 y 15 min corresponden a 40, 80 y 240 CEM43.
@@ -235,6 +257,8 @@ El calor puede radiosensibilizar; esta tabla describe reglas del modelo, no reco
 <div class="takeaway">Se busca predecir reducción, retraso del crecimiento y recrecimiento.</div>
 
 <div class="source">Fuente: &#91;1&#93;, introducción y datos experimentales, pp. 1–2.</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:40. Las 300 células son el número sembrado, no el número de células al tratar ni el tamaño inicial exacto de la simulación.
@@ -281,6 +305,8 @@ $$
 
 <div class="source">Fuente: &#91;1&#93;, modelo computacional, p. 2. Esquema matemático elaborado a partir de las reglas descritas.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 1:40. F_i, C_i y las hijas C_i,1 y C_i,2 son notación didáctica de esta presentación. El esquema aplica a la división sin tratamiento; las reglas RT y HT se explican después. No implica una función de transición completa ni fija tiempos que el artículo no especifica.
 La malla tiene 8 millones de posiciones; no todas están ocupadas. El resumen menciona simulaciones de 10^4–10^7 células.
@@ -308,6 +334,8 @@ $$
 
 <div class="source">Fuente: &#91;1&#93;, ecuación 1 y oxigenación, pp. 2–3; calibración, p. 6.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 1:25. p es la presión parcial; D es el coeficiente de difusión y Φ es la tasa de consumo.
 Difusión en segundos frente a ciclo en horas justifica el equilibrio cuasiestacionario (cambio máximo ≤0.01%).
@@ -334,6 +362,8 @@ $$
 | Contracción gradual | Reoxigenación y posible repoblación |
 
 <div class="source">Fuente: &#91;1&#93;, ecuaciones 2–5 y figura 1, pp. 3–4.</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 1:30. No desarrollar todas las ecuaciones. alfa y beta dependen de la línea celular; gamma pondera fase del ciclo; OER corrige por oxigenación.
@@ -377,6 +407,8 @@ $$
 
 <div class="source">Fuente: &#91;1&#93;, ecuaciones 4–5, p. 3; dinámica de muerte, p. 4. Se usa S_A para distinguir AlphaR de la supervivencia 3D.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 1:10. Esta diapositiva continúa la comparación RT/HT anterior; no se añade tiempo al bloque de tratamientos del guion.
 Explicar la forma por tramos, no derivarla. No confundir D_T con temperatura ni con el corte de 160 CEM43.
@@ -407,6 +439,8 @@ flowchart LR
 
 <div class="source">Fuente: &#91;1&#93;, figura 2 y combinación de tratamientos, p. 5.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 1:05. Las fracciones de las dos últimas ramas son condicionales a la población restante.
 S_RTHT es el componente radiativo modificado por calor; no es la supervivencia total combinada. El producto no representa simplemente dos tratamientos independientes: la sinergia entra mediante alfa y beta dependientes del calor.
@@ -428,6 +462,8 @@ La prioridad de asignación a vía RT o HT forma parte de la cascada implementad
 - Comparación entre curvas mediante **$R^2$**.
 
 <div class="source">Fuente: &#91;1&#93;, ajuste y validación, pp. 5–6.</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:55. Separar calibrar de validar: no todas las curvas son predicciones independientes.
@@ -451,6 +487,8 @@ Los autores advierten que los parámetros pertenecen a un sistema simplificado: 
 
 <div class="source">Comparación de oxígeno: &#91;1, fig. 3, p. 6&#93;.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 1:00. A: diámetro vs tiempo; B: microscopía con células muertas en naranja; C: simulación.
 El 15 % corresponde al campo de presión de oxígeno, no al error del diámetro ni a un R².
@@ -467,6 +505,8 @@ La meseta de crecimiento se representa mediante muerte hipóxica y eliminación 
 </figure>
 
 <div class="text-sm mt-1">Arriba: RT · R² = 0.95–0.98. Abajo: HT · R² = 0.94–0.98.</div>
+
+<SlideNumber />
 
 
 <!--
@@ -492,6 +532,8 @@ Limitación visible: subestima diámetro temprano para 40 y 80 CEM43; posible af
 
 **Curvas simuladas sin volver a ajustar los parámetros.**
 
+<SlideNumber />
+
 
 
 <!--
@@ -516,6 +558,8 @@ Una línea celular *in vitro*; geometría simplificada; sin vasculatura, inmunid
 
 <div class="source">Fuente: &#91;1&#93;, discusión y conclusiones, pp. 9–10.</div>
 
+<SlideNumber />
+
 <!--
 Tiempo: 1:10. Responder la pregunta inicial. No usar R² como prueba de que el mecanismo sea único o molecularmente demostrado.
 Limitación específica: esferoides bien oxigenados al día 4 impidieron ajustar OER; haría falta tratar esferoides con centro hipóxico no necrótico.
@@ -538,6 +582,8 @@ class: references-slide
 Figuras 4–6 del artículo &#91;1&#93;: recortes del original, [licencia CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Sin cambios en los datos.
 
 <div class="mt-8 text-xl">Preguntas</div>
+
+<SlideNumber />
 
 <!--
 Tiempo: 0:20. Cerrar en 18:30 y dar paso a preguntas
